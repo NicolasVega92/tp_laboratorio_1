@@ -20,10 +20,9 @@ static int isNumberFloat(char cadena[]);
 static int isAlphNum(char cadena[]);
 
 
-
 #define LIMITE_BUFFER_STRING 1000
-#define QTY_EMPLOYEES 5
-#define LONG_NAME 51
+#define QTY_EMPLOYEES 1000
+#define LONG_NAME 101
 #define MAX_SALARY 100000
 #define MIN_SALARY 0.01
 #define TRUE 1
@@ -79,21 +78,30 @@ int utn_getNumberInt(char* pMensaje, char* pMensajeError, int* pResultado, int r
  * \param pResultado Puntero al espacio de memoria donde se dejata el resultado de la funcion
  * \return Retorno 0 Exito si obtiene un numero entero / (-1) ERROR
  */
+/*
+ LLAMAR A MY GETS DENTRO DE ACA
+ */
 static int getInt(int* pResultado)
 {
 	int retorno = -1;
 	char buffer[LIMITE_BUFFER_STRING];
+	if(pResultado != NULL)
+	{
+		if(myGets(buffer, sizeof(buffer))==0 && isNumber(buffer))
+		{
+			retorno = 0;
+			*pResultado = atoi(buffer);
+		}
+	}
+	/*
 	fflush(stdin);
 
 	fgets(buffer, LIMITE_BUFFER_STRING, stdin);
 	buffer[strlen(buffer)-1]= '\0';
-	if(isNumber(buffer))
-	{
-		retorno = 0;
-		*pResultado = atoi(buffer);
-	}
+	*/
 	return retorno;
 }
+
 
 /**
  * \brief Verifica si la cadena ingresada es numerica
@@ -139,7 +147,7 @@ int utn_getNumberFloat(char* pMensaje, char* pMensajeError, float* pResultado, i
 	{
 		do
 		{
-			printf("%s\n", pMensaje);
+			printf("%s", pMensaje);
 			fflush(stdin);
 			if(getFloat(&bufferFloat) == 0 && bufferFloat >= minimo && bufferFloat <= maximo)
 			{
@@ -170,11 +178,7 @@ static int getFloat(float* pResultado)
 {
 	int retorno = -1;
 	char buffer[LIMITE_BUFFER_STRING];
-	fflush(stdin);
-
-	fgets(buffer, LIMITE_BUFFER_STRING, stdin);
-	buffer[strlen(buffer)-1]= '\0';
-	if(isNumberFloat(buffer))
+	if(myGets(buffer, sizeof(buffer))==0 && isNumberFloat(buffer))
 	{
 		retorno = 0;
 		*pResultado = atof(buffer);
@@ -267,12 +271,19 @@ int utn_getName(char* pMensaje, char* pMensajeError, char* pResultado, int reint
  */
 static int myGets(char array[], int longitud)
 {
+	int retorno = -1;
 	fflush(stdin);
-	fgets(array, longitud, stdin);
-	array[strlen(array)-1]= '\0';
-
-	return 0;
+	if(array != NULL && longitud > 0 && fgets(array, longitud, stdin)==array)
+	{
+		if(array[strlen(array)-1] == '\n')
+		{
+			array[strlen(array)-1] = '\0';
+		}
+		retorno=0;
+	}
+	return retorno;
 }
+
 
 /*
 * \brief Verifica una cadena como parametro para determinar si es nombre valido

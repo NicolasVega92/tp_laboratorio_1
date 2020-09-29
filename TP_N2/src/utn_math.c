@@ -11,8 +11,8 @@
 #include "utn_math.h"
 #include "ArrayEmployees.h"
 
-#define QTY_EMPLOYEES 5
-#define LONG_NAME 51
+#define QTY_EMPLOYEES 1000
+#define LONG_NAME 101
 #define MAX_SALARY 100000
 #define MIN_SALARY 0.01
 #define TRUE 1

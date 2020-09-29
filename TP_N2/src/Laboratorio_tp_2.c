@@ -13,13 +13,12 @@ El sistema deberá tener el siguiente menú de opciones:
 	3. BAJA: Se ingresará el Número de Id y se eliminará el empleado del sistema.
 
 	4. INFORMAR:
-		1. Listado de los empleados ordenados alfabéticamente por Apellido y Sector.
-		2. Total y promedio de los salarios, y cuántos empleados superan el salario promedio.
+		1. Listado de los QTY_EMPLOYEES ordenados alfabéticamente por Apellido y Sector.
+		2. Total y promedio de los salarios, y cuántos QTY_EMPLOYEES superan el salario promedio.
 
 	NOTA: Se deberá realizar el menú de opciones y las validaciones a través de funciones.
 	Tener en cuenta que no se podrá ingresar a los casos 2, 3 y 4; sin antes haber realizado la
 	carga de algún empleado.
-
  ============================================================================
  */
 
@@ -30,8 +29,8 @@ El sistema deberá tener el siguiente menú de opciones:
 #include "utn_math.h"
 #include "ArrayEmployees.h"
 
-#define QTY_EMPLOYEES 5
-#define LONG_NAME 51
+#define QTY_EMPLOYEES 1000
+#define LONG_NAME 101
 #define MAX_SALARY 100000
 #define MIN_SALARY 0.01
 #define TRUE 1
@@ -41,36 +40,87 @@ int main(void) {
 	setbuf(stdout,NULL);
 
 	int opcion;
-	int indice = 0; // ESTO ESTA MAL CAMBIARLO DESPUES
+	int indiceById;
+	int id;
+	int contadorCargaEmpleados = 0;
+
 	Employee arrayEmployees[QTY_EMPLOYEES];
 
 	//FUNCION INIT isEmpty TRUE
-	Employees_init(arrayEmployees, QTY_EMPLOYEES);
-	Employees_id(arrayEmployees, QTY_EMPLOYEES);
-
+	employee_init(arrayEmployees, QTY_EMPLOYEES);
 	do
 	{
-		if(utn_getNumberInt("Ingrese una opción\n1- Dar de alta un empleado\n2- Modificar algún empleado por ID\n3- Dar de baja un empleado\n4- Informar la lista de empleados\n5- Salir\n ", "Error, opción inválida\n", &opcion, 3, 1, 5)==0)
+		if(utn_getNumberInt("Ingrese una opción\n1- Dar de alta un empleado\n2- Modificar algún empleado por ID\n3- Dar de baja un empleado\n4- Informar la lista de QTY_EMPLOYEES\n5- Salir\n", "Error, opción inválida\n", &opcion, 3, 1, 5)==0)
 		{
-
 			switch(opcion)
 			{
 			case 1: //ALTA
-				if(Employee_add(arrayEmployees, QTY_EMPLOYEES, indice)==0)
+				if(employee_createEmployee(arrayEmployees, QTY_EMPLOYEES)==0)
 				{
-					printf("************");
+					printf("TODO OK\n");
+					contadorCargaEmpleados++;
 				}
-				indice++;
+				else
+				{
+					printf("ERRRRRRRRRRRRRRRRROORR\n");
+				}
 				break;
 			case 2: //MODIFICAR
+				// CAMBIAR A SOLO UNA SOLO OPCION
+				if(contadorCargaEmpleados > 0)
+				{
+					if(utn_getNumberInt("Ingrese el ID del empleado que desea modificar:\n", "Error, ingrese un ID entre 1 - 100\n", &id, 3, 1, 100)==0)
+					{
+						indiceById = employee_findById(arrayEmployees, QTY_EMPLOYEES, id);
+						if(employee_modifyEmployeeByIndex(arrayEmployees, QTY_EMPLOYEES, indiceById)==0)
+						{
+							printf("modificado exitosamente!\n");
+						}
+						else
+						{
+							printf("No existe ese ID para ser modificado\n");
+						}
+					}
+				}
+				else
+				{
+					printf("Se debe dar de alta al menos un empleado para poder modificar.\n");
+				}
 				break;
 			case 3: // BAJA
+				if(contadorCargaEmpleados > 0)
+				{
+					if(utn_getNumberInt("Ingrese el ID del empleado que desea remover:\n", "Error, ingrese un ID entre 1 - 100\n", &id, 3, 1, 100)==0)
+					{
+						indiceById = employee_findById(arrayEmployees, QTY_EMPLOYEES, id);
+						if(employee_remove(arrayEmployees, QTY_EMPLOYEES, indiceById)==0)
+						{
+							printf("Id removido exitosamente!\n");
+							contadorCargaEmpleados--;
+						}
+						else
+						{
+							printf("No existe ID cargado para remover\n");
+						}
+					}
+				}
+				else
+				{
+					printf("Se debe dar de alta al menos un empleado para poder modificar.\n");
+				}
 				break;
 			case 4: //ORDENAR POR A - Z
-				Employee_print(arrayEmployees, QTY_EMPLOYEES);
+				if(contadorCargaEmpleados > 0)
+				{
+					employee_print(arrayEmployees, QTY_EMPLOYEES);
+				}
+				else
+				{
+					printf("Se debe dar de alta al menos un empleado para poder modificar.\n");
+				}
 				break;
 			}
-			printf("//////////");
+			printf("//////////\n\n");
 		}
 	}while(opcion!=5);
 
