@@ -365,3 +365,139 @@ int employee_createEmployee(Employee* pListEmployee, int length)
 	}
 	return retorno;
 }
+
+/*
+ *
+ */
+int employee_sortByLastNameAndSector(Employee* pListEmployee, int length, int order)
+{
+	int retorno = -1;
+	int nuevoLimite;
+	int i;
+	int flagSwamp = 1;
+	Employee bufferEmployee;
+	if(pListEmployee != NULL && length > 0 && order > 0 && order < 3)
+	{
+
+		do
+			{
+				nuevoLimite = length -1;
+				flagSwamp = 0;
+				for(i = 0; i < nuevoLimite; i++)
+				{
+					if(order == 1)
+					{
+						if(pListEmployee[i].isEmpty == 0)
+						{
+							if(strncmp(pListEmployee[i].lastName, pListEmployee[i+1].lastName, sizeof(pListEmployee[i].lastName)-1) > 0)
+							{
+								flagSwamp = 1;
+								bufferEmployee = pListEmployee[i];
+								pListEmployee[i] = pListEmployee[i + 1];
+								pListEmployee[i + 1] = bufferEmployee;
+							}
+							else if(strncmp(pListEmployee[i].lastName, pListEmployee[i+1].lastName, sizeof(pListEmployee[i].lastName)-1) == 0 && pListEmployee[i].sector > pListEmployee[i+1].sector)
+							{
+								bufferEmployee = pListEmployee[i];
+								pListEmployee[i] = pListEmployee[i + 1];
+								pListEmployee[i + 1] = bufferEmployee;
+							}
+						}
+					}
+					else
+					{
+						if(pListEmployee[i].isEmpty == 0)
+						{
+							if(strncmp(pListEmployee[i].lastName, pListEmployee[i+1].lastName, sizeof(pListEmployee[i].lastName)-1) < 0)
+							{
+								flagSwamp = 1;
+								bufferEmployee = pListEmployee[i];
+								pListEmployee[i] = pListEmployee[i + 1];
+								pListEmployee[i + 1] = bufferEmployee;
+							}
+							else if(strncmp(pListEmployee[i].lastName, pListEmployee[i+1].lastName, sizeof(pListEmployee[i].lastName)-1) == 0 && pListEmployee[i].sector < pListEmployee[i+1].sector)
+							{
+								bufferEmployee = pListEmployee[i];
+								pListEmployee[i] = pListEmployee[i + 1];
+								pListEmployee[i + 1] = bufferEmployee;
+							}
+						}
+					}
+
+				}
+				nuevoLimite--;
+				retorno = 0;
+			}while(flagSwamp);
+	}
+	return retorno;
+}
+
+/*
+ *
+ */
+int employee_calculateAverageSalary(Employee* pListEmployee, int length, int contadorEmpleadosCargados, float* pAverageSalary)
+{
+	int retorno = -1;
+	float sumaTotal;
+	float promedio;
+	if(pListEmployee != NULL && length > 0)
+	{
+		if(employee_calculateSumaSalary(pListEmployee, length, &sumaTotal)==0)
+		{
+			promedio = sumaTotal / contadorEmpleadosCargados;
+		}
+		*pAverageSalary = promedio;
+		retorno = 0;
+	}
+	return retorno;
+}
+
+
+/*
+ *
+ */
+int employee_calculateSumaSalary(Employee* pListEmployee, int length, float* pResultado)
+{
+	int retorno = -1;
+	int i;
+	float sumaSalary = 0;
+	if(pListEmployee != NULL && length > 0)
+	{
+		for(i=0; i < length; i++)
+		{
+			if(pListEmployee[i].isEmpty == 0)
+			{
+				sumaSalary += pListEmployee[i].salary;
+			}
+		}
+		*pResultado = sumaSalary;
+		printf("El total de los salarios es: %f\n", *pResultado);
+		retorno = 0;
+	}
+	return retorno;
+}
+
+/*
+ *
+ */
+int employee_calculateEmployeeGainMoreThanAverage(Employee* pListEmployee, int length, float average, int* pEmployeeGainMore)
+{
+	int retorno = -1;
+	int i;
+	int contador = 0;
+	if(pListEmployee != NULL && length > 0 && average > MIN_SALARY && average < MAX_SALARY && pEmployeeGainMore != NULL)
+	{
+		for(i=0; i < length; i++)
+		{
+			if(pListEmployee[i].salary > average && pListEmployee[i].isEmpty == 0)
+			{
+				contador++;
+			}
+		}
+		*pEmployeeGainMore = contador;
+		retorno = 0;
+	}
+
+
+	return retorno;
+}

@@ -43,6 +43,10 @@ int main(void) {
 	int indiceById;
 	int id;
 	int contadorCargaEmpleados = 0;
+	//int salariosTotal;
+	float averageSalary;
+	int employeeGainMore=0;
+	int order;
 
 	Employee arrayEmployees[QTY_EMPLOYEES];
 
@@ -50,7 +54,7 @@ int main(void) {
 	employee_init(arrayEmployees, QTY_EMPLOYEES);
 	do
 	{
-		if(utn_getNumberInt("Ingrese una opción\n1- Dar de alta un empleado\n2- Modificar algún empleado por ID\n3- Dar de baja un empleado\n4- Informar la lista de QTY_EMPLOYEES\n5- Salir\n", "Error, opción inválida\n", &opcion, 3, 1, 5)==0)
+		if(utn_getNumberInt("Ingrese una opción\n1- Dar de alta un empleado\n2- Modificar algún empleado por ID\n3- Dar de baja un empleado\n4- Informar la lista de empleados y promedio sueldos\n5- Salir\n", "Error, opción inválida\n", &opcion, 3, 1, 5)==0)
 		{
 			switch(opcion)
 			{
@@ -112,7 +116,22 @@ int main(void) {
 			case 4: //ORDENAR POR A - Z
 				if(contadorCargaEmpleados > 0)
 				{
-					employee_print(arrayEmployees, QTY_EMPLOYEES);
+					if(utn_getNumberInt("Ingrese:\n1- Si desea ver la lista ordenada de forma ascendente.\n2- Si desea ver la lista de forma desendente\n", "ERROR, ingrese 1 o 2 segun corresponda\n", &order, 3, 1, 2)==0)
+					{
+						if(employee_sortByLastNameAndSector(arrayEmployees, QTY_EMPLOYEES, order)==0)
+						{
+							if(employee_print(arrayEmployees, QTY_EMPLOYEES)==0)
+							{
+								if(employee_calculateAverageSalary(arrayEmployees, QTY_EMPLOYEES, contadorCargaEmpleados, &averageSalary)==0)
+								{
+									if(employee_calculateEmployeeGainMoreThanAverage(arrayEmployees, QTY_EMPLOYEES, averageSalary, &employeeGainMore)==0)
+									{
+										printf("PROMEDIO DE LOS SALARIOS: %.2f\nLa cantidad de Empleados que superan el salario medio es: %d\n", averageSalary, employeeGainMore);
+									}
+								}
+							}
+						}
+					}
 				}
 				else
 				{

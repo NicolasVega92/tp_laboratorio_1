@@ -38,8 +38,10 @@
 	int employee_createEmployee(Employee* pListEmployee, int length);
 
 	int employee_addEmployee(Employee* pListEmployee, int length, int id, char name[], char lastName[], float salary, int sector);
-
-
+	int employee_sortByLastNameAndSector(Employee* pListEmployee, int length, int order);
+	int employee_calculateSumaSalary(Employee* pListEmployee, int length, float* pResultado);
+	int employee_calculateAverageSalary(Employee* pListEmployee, int length, int contadorEmpleadosCargados, float* pAverageSalary);
+	int employee_calculateEmployeeGainMoreThanAverage(Employee* pListEmployee, int length, float average, int* pEmployeeGainMore);
 
 
 
