@@ -19,15 +19,15 @@ static int getFloat(float* pResultado);
 static int isNumberFloat(char cadena[]);
 static int isAlphNum(char cadena[]);
 
-
 #define LIMITE_BUFFER_STRING 1000
 #define QTY_EMPLOYEES 1000
-#define LONG_NAME 101
-#define MAX_SALARY 100000
+#define LONG_NAME 1001
+#define MAX_SALARY 1000000
 #define MIN_SALARY 0.01
+#define MAX_SECTOR 10
+#define MIN_SECTOR 1
 #define TRUE 1
 #define FALSE 0
-
 /**
  * \brief Solicita un entero al usuario, luego de verificar devuelve el resultado
  * \param char* pMensaje, Es el mensaje mostrado al usuario
@@ -78,9 +78,6 @@ int utn_getNumberInt(char* pMensaje, char* pMensajeError, int* pResultado, int r
  * \param pResultado Puntero al espacio de memoria donde se dejata el resultado de la funcion
  * \return Retorno 0 Exito si obtiene un numero entero / (-1) ERROR
  */
-/*
- LLAMAR A MY GETS DENTRO DE ACA
- */
 static int getInt(int* pResultado)
 {
 	int retorno = -1;
@@ -93,16 +90,8 @@ static int getInt(int* pResultado)
 			*pResultado = atoi(buffer);
 		}
 	}
-	/*
-	fflush(stdin);
-
-	fgets(buffer, LIMITE_BUFFER_STRING, stdin);
-	buffer[strlen(buffer)-1]= '\0';
-	*/
 	return retorno;
 }
-
-
 /**
  * \brief Verifica si la cadena ingresada es numerica
  * \param cadena Cadena de caracteres a ser analizada
@@ -127,7 +116,6 @@ static int isNumber(char cadena[])
 	}
 	return retorno;
 }
-
 /**
 * \brief Solicita un float al usuario
 * \param char* pMensaje, Es el mensaje mostrado al usuario
@@ -168,7 +156,6 @@ int utn_getNumberFloat(char* pMensaje, char* pMensajeError, float* pResultado, i
 	}
 	return retorno;
 }
-
 /**
  * \brief
  * \param float* pResultado Puntero al espacio de memoria donde se dejata el resultado de la funcion
@@ -185,7 +172,6 @@ static int getFloat(float* pResultado)
 	}
 	return retorno;
 }
-
 /**
  * \brief Verifica si la cadena ingresada es numerica y puede contener signo en el primer indice o ningun o 1 punto.
  * \param cadena Cadena de caracteres a ser analizada
@@ -220,8 +206,6 @@ static int isNumberFloat(char cadena[])
 	}
 	return retorno;
 }
-
-
 /*
 * \brief Solicita un nombre al usuario
 * \param char* pMensaje, Es el mensaje mostrado al usuario
@@ -261,7 +245,6 @@ int utn_getName(char* pMensaje, char* pMensajeError, char* pResultado, int reint
 	}
 	return retorno;
 }
-
 /**
  * \brief Lee de stdin hasta que encuentra un '\n' o hasta que haya copiado en cadena
  * 			un maximo de 'longitud -1' caracteres.
@@ -283,8 +266,6 @@ static int myGets(char array[], int longitud)
 	}
 	return retorno;
 }
-
-
 /*
 * \brief Verifica una cadena como parametro para determinar si es nombre valido
 * \param char cadena[], cadena a analizar
@@ -305,7 +286,6 @@ static int utn_itIsAValidName(char array[], int limite)
 	}
 	return retorno;
 }
-
 /**
  * \brief Verifica si la cadena ingresada son letras
  * \param cadena Cadena de caracteres a ser analizada
@@ -330,8 +310,6 @@ static int isOnlyLettersAndSpace(char cadena[])
 	}
 	return retorno;
 }
-
-
 /*
 * \brief Solicita un char al usuario
 * \param char* pMensaje, Es el mensaje mostrado al usuario
@@ -372,7 +350,6 @@ int utn_getChar(char* pMensaje, char* pMensajeError, char* pResultado, int reint
 	}
 	return retorno;
 }
-
 /*
 * \brief Solicita numeros y 1 o ningun guión
 * \param char* pMensaje, Es el mensaje mostrado al usuario
@@ -413,7 +390,6 @@ int utn_getPhone(char* pMensaje, char* pMensajeError, char* pResultado, int rein
 	}
 	return retorno;
 }
-
 /**
  * \brief Verifica si la cadena ingresada es numerica o si contiene menos de 2 guiones
  * \param cadena Cadena de caracteres a ser analizada
@@ -443,7 +419,6 @@ static int isPhone(char cadena[])
 	}
 	return retorno;
 }
-
 /*
 * \brief Solicita numeros, letras y espacio al usuario
 * \param char* pMensaje, Es el mensaje mostrado al usuario
@@ -484,7 +459,6 @@ int utn_getAlphaNum(char* pMensaje, char* pMensajeError, char* pResultado, int r
 	}
 	return retorno;
 }
-
 /**
  * \brief Verifica si la cadena son numeros, letras con o sin tilde y espacio
  * \param cadena Cadena de caracteres a ser analizada
@@ -510,8 +484,6 @@ static int isAlphNum(char cadena[])
 	}
 	return retorno;
 }
-
-
 /*
 * \brief Ordena el array desde el valor minimo al maximo
 * \param int pArray[], recibe el array a ordenar
@@ -545,8 +517,6 @@ int utn_sortMin(int pArray[], int limite)
 	}
 	return retorno;
 }
-
-
 /**
  * \brief Calcula el numero maximo del Array recibido como parametro
  * \param int pArray[], Array a ser procesado
@@ -572,7 +542,6 @@ int utn_calculateMaximum(int pArray[], int cantidadElementos, int* pResultado)
 	}
 	return retorno;
 }
-
 /**
  * \brief Calcula el numero minimo del Array recibido como parametro
  * \param int pArray[], Array a ser procesado
@@ -601,7 +570,6 @@ int utn_calculateMinimum(int pArray[], int cantidadElementos, int* pResultado)
 
 	return retorno;
 }
-
 /**
  * \brief Calcula el promedio de los elementos del Array recibido como parametro
  * \param int pArray[], Array a ser procesado
@@ -628,8 +596,6 @@ int utn_calculateAverage(int pArray[], int cantidadElementos, float* pResultado)
 	}
 	return retorno;
 }
-
-
 /**
  * \brief Imprime a modo de DEBUG la info de un array de enteros
  * \param int pArray[] es el puntero al array a ser ordenado
@@ -651,7 +617,6 @@ int utn_printArrayInt(int pArray[], int limite)
 	}
 	return retorno;
 }
-
 /**
  * \brief Ordena un array de enteros de manera DESCENDENTE
  * \param int pArray[] es el puntero al array a ser ordenado
@@ -690,7 +655,6 @@ int utn_sortArrayInt(int pArray[], int limite)
 	}
 	return retorno;
 }
-
 /**
  * \brief Cuenta cuantos elementos pasados como 3er parametro se encuentran dentro del array
  * 			e imprime msj con el valor contado o que no hay ninguno
@@ -727,8 +691,6 @@ int utn_countInt(int pArray[], int limite, int numero)
 	}
 	return retorno;
 }
-
-
 /**
  * \brief Cuenta cuantos elementos pasados como 3er parametro se encuentran dentro del array
  * 		   y los devuelve por referencia a una direccion de memoria
@@ -759,7 +721,6 @@ int utn_countIntByReference(int pArray[], int limite, int numero, int* pDireccio
 	}
 	return retorno;
 }
-
 /**
  * \brief Cuenta cuantos elementos pasados como 3er parametro se encuentran dentro del array
  * 		   y los devuelve por referencia a una direccion de memoria
@@ -788,51 +749,6 @@ int utn_countCharByReference(char pArray[], char elemento, int* pElemento)
 		retorno = 0;
 	}
 	return retorno;
-}
-
-
-
-/**
- * \brief Imprime un menú al usuario
- * \param float operador1, recibe un dato del operador
- * \param float operador2, recibe un dato del operador
- * \param int flagOperador1, recibe un dato del operador
- * \param int flagOperador2, recibe un dato del operador
- * \return void
- */
-void utn_menuOptions(float operador1, float operador2, int flagOperador1, int flagOperador2)
-{
-	printf("\n1 para ingresar el primer operador: A\n");
-	printf("2 para ingresar el segundo operador: B\n");
-	printf("3 para calcular todas las operaciones \n");
-	printf("4 para mostrar los resultados\n");
-	printf("5 Salir de la calculadora\n");
-	if(flagOperador1 == 0 && flagOperador2 == 0)
-	{
-		printf("A = %.2f\n", operador1);
-		printf("B = %.2f\n", operador2);
-	}
-	else
-	{
-		if(flagOperador1 == 0 && flagOperador2 == (-1))
-		{
-			printf("A = %.2f\n", operador1);
-			printf("B = Sin ingresar\n");
-		}
-		else
-		{
-			if(flagOperador1 == (-1) && flagOperador2 == 0)
-			{
-				printf("A = Sin ingresar\n");
-				printf("B = %.2f\n", operador2);
-			}
-			else
-			{
-				printf("A = Sin ingresar\n");
-				printf("B = Sin ingresar\n");
-			}
-		}
-	}
 }
 
 
