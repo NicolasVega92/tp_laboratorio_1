@@ -36,5 +36,4 @@
 	int employee_sumaSalary(Employee* pListEmployee, int length, float* pResultado);
 	int employee_averageSalary(Employee* pListEmployee, int length, int contadorEmpleadosCargados, float* pAverageSalary);
 	int employee_gainMoreThanAverage(Employee* pListEmployee, int length, float average, int* pEmployeeGainMore);
-	void employee_menuOptions();
 #endif /* ARRAYEMPLOYEES_H_ */

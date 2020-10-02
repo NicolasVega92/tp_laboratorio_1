@@ -24,6 +24,7 @@ El sistema deberá tener el siguiente menú de opciones:
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "utn.h"
 #include "ArrayEmployees.h"
 
@@ -51,8 +52,12 @@ int main(void) {
 	printf("Bienvenido al sistema de carga de Empleados 2020\n*************************************************\n");
 	do
 	{
-		employee_menuOptions();
-		if(utn_getNumberInt("\n", "Error, opción inválida\n", &opcion, 3, 1, 5)==0)
+		if(utn_getNumberInt("Ingrese una de las siguientes opciones:\n"
+							"1- Dar de alta un empleado\n"
+							"2- Modificar algún empleado por ID\n"
+							"3- Dar de baja un empleado\n"
+							"4- Informar la lista de empleados y promedio sueldos\n"
+							"5- Salir\n", "Error, opción inválida\n", &opcion, 3, 1, 5)==0)
 		{
 			switch(opcion)
 			{

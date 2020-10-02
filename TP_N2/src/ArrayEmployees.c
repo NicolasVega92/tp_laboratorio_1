@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "utn.h"
 #include "ArrayEmployees.h"
 
@@ -218,10 +219,10 @@ int employee_altaEmployee(int length, int* pId, char aName[], char aLastName[], 
 	int retorno = -1;
 	if(pId!= NULL && aName!=NULL && aLastName!=NULL && pSalary != NULL && pSector != NULL && length > 0)
 	{
-		if(	(utn_getName("Ingresa el Nombre del empleado:\n", "Error, por favor reintentelo con un nombre válido\n", aName , 3, LONG_NAME)==0) &&
-			(utn_getName("Ingresa el Apellido del empleado:\n", "Error, por favor reintentelo con un apellido válido\n", aLastName, 3, LONG_NAME)==0) &&
-			(utn_getNumberFloat("Ingrese el sueldo del empleado:\n", "Error, por favor reintentelo con un valor entre (0 - 1000000)\n", pSalary, 3, MIN_SALARY, MAX_SALARY)==0) &&
-			(utn_getNumberInt("Ingrese el Numero del sector donde trabaja el empleado: \n", "Error, ingrese un sector válido (1 - 10)\n", pSector, 3,MIN_SECTOR, MAX_SECTOR)==0))
+		if(	(utn_getName("Ingresa el Nombre del empleado:\n", "Error, por favor reintentelo con un nombre válido\n\n", aName , 3, LONG_NAME)==0) &&
+			(utn_getName("Ingresa el Apellido del empleado:\n", "Error, por favor reintentelo con un apellido válido\n\n", aLastName, 3, LONG_NAME)==0) &&
+			(utn_getNumberFloat("Ingrese el sueldo del empleado:\n", "Error, por favor reintentelo con un valor entre (0 - 1000000)\n\n", pSalary, 3, MIN_SALARY, MAX_SALARY)==0) &&
+			(utn_getNumberInt("Ingrese el Numero del sector donde trabaja el empleado: \n", "Error, ingrese un sector válido (1 - 10)\n\n", pSector, 3,MIN_SECTOR, MAX_SECTOR)==0))
 		{
 
 			*pId = employee_generarIdNuevo();
@@ -414,16 +415,4 @@ int employee_gainMoreThanAverage(Employee* pArray, int length, float average, in
 	}
 	return retorno;
 }
-/**
- * \brief Imprime un menú al usuario
- * \return void
- */
-void employee_menuOptions()
-{
-	printf(	"Ingrese una de las siguientes opciones:\n"
-			"1- Dar de alta un empleado\n"
-			"2- Modificar algún empleado por ID\n"
-			"3- Dar de baja un empleado\n"
-			"4- Informar la lista de empleados y promedio sueldos\n"
-			"5- Salir\n");
-}
+

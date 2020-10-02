@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <ctype.h>
 
 static int isNumber(char cadena[]);
 static int isPhone(char cadena[]);
@@ -18,6 +20,8 @@ static int utn_itIsAValidName(char array[], int limite);
 static int getFloat(float* pResultado);
 static int isNumberFloat(char cadena[]);
 static int isAlphNum(char cadena[]);
+static int utn_lowerCharArray(char pArray[]);
+static int utn_upperCaseFirstChar(char pArray[]);
 
 #define LIMITE_BUFFER_STRING 1000
 #define QTY_EMPLOYEES 1000
@@ -226,7 +230,8 @@ int utn_getName(char* pMensaje, char* pMensajeError, char* pResultado, int reint
 			printf("%s", pMensaje);
 			if(	(myGets(bufferString, LIMITE_BUFFER_STRING)== 0) &&
 				(strnlen(bufferString, sizeof(bufferString)-1) <= limite) &&
-				(utn_itIsAValidName(bufferString, limite) != 0))
+				(utn_itIsAValidName(bufferString, limite) != 0) &&
+				(utn_upperCaseFirstChar(bufferString)==0))
 			{
 				strncpy(pResultado, bufferString, limite);
 				retorno = 0;
@@ -275,13 +280,20 @@ static int myGets(char array[], int longitud)
 static int utn_itIsAValidName(char array[], int limite)
 {
 	int retorno = 1; //TODO OK
-
-	for(int i = 0; i <= limite && array[i] != '\0'; i++)
+	int i=0;
+	if(array[i]=='\0')
 	{
-		if(isOnlyLettersAndSpace(array) == 0)
+		retorno = 0;
+	}
+	else
+	{
+		for(i = 0; i <= limite && array[i] != '\0'; i++)
 		{
-			retorno = 0;
-			break;
+			if(isOnlyLettersAndSpace(array) == 0)
+			{
+				retorno = 0;
+				break;
+			}
 		}
 	}
 	return retorno;
@@ -294,18 +306,25 @@ static int utn_itIsAValidName(char array[], int limite)
 static int isOnlyLettersAndSpace(char cadena[])
 {
 	int retorno = 1;
-	int i;
+	int i=0;
 
-	for(i=0 ; cadena[i] != '\0'; i++)
+	if(cadena[i]==' ')
 	{
-		if((cadena[i] < 'A' || cadena[i] > 'Z') &&
-			(cadena[i] < 'a' || cadena[i] > 'z') &&
-			(cadena[i] != ' ') &&
-			(cadena[i] < 'á' || cadena[i] > 'ú') &&
-			(cadena[i] != 'é'))
+		retorno = 0;
+	}
+	else
+	{
+		for( ; cadena[i] != '\0'; i++)
 		{
-			retorno = 0;
-			break;
+			if((cadena[i] < 'A' || cadena[i] > 'Z') &&
+				(cadena[i] < 'a' || cadena[i] > 'z') &&
+				(cadena[i] != ' ') &&
+				(cadena[i] < 'á' || cadena[i] > 'ú') &&
+				(cadena[i] != 'é'))
+			{
+				retorno = 0;
+				break;
+			}
 		}
 	}
 	return retorno;
@@ -750,7 +769,61 @@ int utn_countCharByReference(char pArray[], char elemento, int* pElemento)
 	}
 	return retorno;
 }
-
+/*
+ *
+ */
+static int utn_lowerCharArray(char pArray[])
+{
+	int retorno = -1;
+	char bufferChar;
+	int i;
+	if(pArray!=NULL)
+	{
+		for(i=0; pArray[i]!= '\0';i++)
+		{
+			if(pArray[i] >= 'A' && pArray[i] <= 'Z')
+			{
+				bufferChar = pArray[i]+32;
+				pArray[i]=bufferChar;
+			}
+		}
+		retorno = 0;
+	}
+	return retorno;
+}
+/*
+ *
+ */
+static int utn_upperCaseFirstChar(char pArray[])
+{
+	int retorno=-1;
+	int i;
+	int flagSpace = 0;
+	if(pArray!=NULL)
+	{
+		if(utn_lowerCharArray(pArray)==0)
+		{
+			pArray[0] = toupper(pArray[0]);
+		}
+		for(i=1; pArray[i]!= '\0';i++)
+		{
+			if(pArray[i] == ' ')
+			{
+				flagSpace++;
+			}
+			else
+			{
+				if(flagSpace > 0)
+				{
+					pArray[i] = toupper(pArray[i]);
+					flagSpace--;
+				}
+			}
+		}
+		retorno = 0;
+	}
+	return retorno;
+}
 
 
 

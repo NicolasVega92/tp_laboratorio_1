@@ -19,4 +19,5 @@
 	int utn_countCharByReference(char pArray[], char elemento, int* pElemento);
 	int utn_getPhone(char* pMensaje, char* pMensajeError, char* pResultado, int reintentos, int limite);
 	int utn_getAlphaNum(char* pMensaje, char* pMensajeError, char* pResultado, int reintentos, int limite);
+
 #endif /* UTN_H_ */
