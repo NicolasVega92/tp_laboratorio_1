@@ -4,6 +4,15 @@
  */
 #ifndef UTN_H_
 #define UTN_H_
+	#define LIMITE_BUFFER_STRING 1000
+	#define QTY_EMPLOYEES 1000
+	#define LONG_NAME 51
+	#define MAX_SALARY 1000000
+	#define MIN_SALARY 0.01
+	#define MAX_SECTOR 10
+	#define MIN_SECTOR 1
+	#define TRUE 1
+	#define FALSE 0
 	int utn_getNumberInt(char* pMensaje, char* pMensajeError, int* pResultado, int reintentos, int minimo, int maximo);
 	int utn_getNumberFloat(char* pMensaje, char* pMensajeError, float* pResultado, int reintentos, float minimo, float maximo);
 	int utn_getChar(char* pMensaje, char* pMensajeError, char* pResultado, int reintentos, int limite);

@@ -9,7 +9,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
-
+#include "utn.h"
+#include "ArrayEmployees.h"
 static int isNumber(char cadena[]);
 static int isPhone(char cadena[]);
 static int isAlphNum(char cadena[]);
@@ -22,16 +23,6 @@ static int isNumberFloat(char cadena[]);
 static int isAlphNum(char cadena[]);
 static int utn_lowerCharArray(char pArray[]);
 static int utn_upperCaseFirstChar(char pArray[]);
-
-#define LIMITE_BUFFER_STRING 1000
-#define QTY_EMPLOYEES 1000
-#define LONG_NAME 1001
-#define MAX_SALARY 1000000
-#define MIN_SALARY 0.01
-#define MAX_SECTOR 10
-#define MIN_SECTOR 1
-#define TRUE 1
-#define FALSE 0
 /**
  * \brief Solicita un entero al usuario, luego de verificar devuelve el resultado
  * \param char* pMensaje, Es el mensaje mostrado al usuario
@@ -149,7 +140,7 @@ int utn_getNumberFloat(char* pMensaje, char* pMensajeError, float* pResultado, i
 			}
 			else
 			{
-				printf("%s\n", pMensajeError);
+				printf("%s", pMensajeError);
 				reintentos--;
 			}
 		}while(reintentos >= 0);
@@ -299,7 +290,8 @@ static int utn_itIsAValidName(char array[], int limite)
 	return retorno;
 }
 /**
- * \brief Verifica si la cadena ingresada son letras
+ * \brief Verifica si la cadena ingresada son letras, espacios pero no puede haber mas de uno seguido, tampoco
+ * 			empezar con espacio.
  * \param cadena Cadena de caracteres a ser analizada
  * \return 1 EXITO / (0) ERROR
  */
@@ -307,7 +299,7 @@ static int isOnlyLettersAndSpace(char cadena[])
 {
 	int retorno = 1;
 	int i=0;
-
+	int flagSpace = FALSE;
 	if(cadena[i]==' ')
 	{
 		retorno = 0;
@@ -316,6 +308,18 @@ static int isOnlyLettersAndSpace(char cadena[])
 	{
 		for( ; cadena[i] != '\0'; i++)
 		{
+			if(flagSpace == TRUE)
+			{
+				if(cadena[i] == ' ')
+				{
+					retorno = 0;
+					break;
+				}
+				else
+				{
+					flagSpace = FALSE;
+				}
+			}
 			if((cadena[i] < 'A' || cadena[i] > 'Z') &&
 				(cadena[i] < 'a' || cadena[i] > 'z') &&
 				(cadena[i] != ' ') &&
@@ -325,6 +329,11 @@ static int isOnlyLettersAndSpace(char cadena[])
 				retorno = 0;
 				break;
 			}
+			if(cadena[i] == ' ')
+			{
+				flagSpace = TRUE;
+			}
+
 		}
 	}
 	return retorno;
@@ -770,7 +779,9 @@ int utn_countCharByReference(char pArray[], char elemento, int* pElemento)
 	return retorno;
 }
 /*
- *
+ * \brief Recibe una cadena de chars y la devuelve toda con LowerCase
+ * \param char pArray[] es el puntero al array a ser analizado
+ * \return 0 OK / -1 Error
  */
 static int utn_lowerCharArray(char pArray[])
 {
@@ -783,7 +794,7 @@ static int utn_lowerCharArray(char pArray[])
 		{
 			if(pArray[i] >= 'A' && pArray[i] <= 'Z')
 			{
-				bufferChar = pArray[i]+32;
+				bufferChar = tolower(pArray[i]);
 				pArray[i]=bufferChar;
 			}
 		}
@@ -792,7 +803,10 @@ static int utn_lowerCharArray(char pArray[])
 	return retorno;
 }
 /*
- *
+ * \brief Recibe una cadena de chars devuelve la Primer letra en UpperCase y si tiene
+ * 			algun espacio devuelve la siguiente letra con mayus
+ * \param char pArray[] es el puntero al array a ser analizado
+ * \return 0 OK / -1 Error
  */
 static int utn_upperCaseFirstChar(char pArray[])
 {
