@@ -165,7 +165,7 @@ int employee_modifyEmployeeByIndex(Employee* pArray, int length, int id)
 								"1- Nombre\n"
 								"2- Apellido\n"
 								"3- Salario\n"
-								"4- Sector\n", "Error, ingrese una opción correcta. (1 - 4)", &opcionModificar, 3, 1, 4)==0)
+								"4- Sector\n", "Error, ingrese una opción correcta. (1 - 4)\n", &opcionModificar, 3, 1, 4)==0)
 			{
 				switch(opcionModificar)
 				{
