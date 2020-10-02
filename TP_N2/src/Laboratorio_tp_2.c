@@ -1,9 +1,10 @@
 /*
  ============================================================================
- Name        : Laboratorio_tp_2.c
- Author      : Nicolás Martín Vega Gangemi
- Comisión    : 1°H
- Docentes    : Mauricio Davila y Ernesto Gigliotti
+ Name            : Laboratorio_tp_2.c
+ Author          : Nicolás Martín Vega Gangemi
+ Comisión   	 : 1°H
+ Docentes    	 : Mauricio Davila y Ernesto Gigliotti
+ Fecha de entrega: 02/10/2020
  ============================================================================
  */
 #include <stdio.h>
