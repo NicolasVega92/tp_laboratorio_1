@@ -84,8 +84,8 @@ int employee_add(Employee* pArray, int length, int id, char name[], char lastNam
 			pArray[indiceLibre].salary = salary;
 			pArray[indiceLibre].sector = sector;
 			pArray[indiceLibre].isEmpty = FALSE;
-			strncpy(pArray[indiceLibre].lastName, lastName, LONG_NAME);
-			strncpy(pArray[indiceLibre].name, name, LONG_NAME);
+			strncpy(pArray[indiceLibre].lastName, lastName, sizeof(pArray[indiceLibre].lastName)-1);
+			strncpy(pArray[indiceLibre].name, name, sizeof(pArray[indiceLibre].lastName)-1);
 		}
 		retorno = 0;
 	}
