@@ -15,7 +15,7 @@ typedef struct
 Employee* employee_new();
 Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr, char* sueldoStr);
 Employee* emp_newParametros(char* nombre, int horasTrabajadas, float sueldo, int id);
-void employee_delete();
+void employee_delete(Employee* this);
 
 int employee_setId(Employee* this,int id);
 int employee_getId(Employee* this,int* id);
@@ -42,6 +42,9 @@ int emp_guardarArrayEnArchivoBinario(Employee* arrayPunteros[], int length, char
 int emp_leerArchivoParaVolcarloAlArrayBinario(Employee* arrayPunteros[], int length, char* pathArchivo, int* proximoId);
 
 int employee_compararNombre(void* thisA, void* thisB);
+int employee_compararSueldo(void* thisA, void* thisB);
+int employee_compararId(void* thisA, void* thisB);
+int employee_compararHoras(void* thisA, void* thisB);
 
 /*************************************************************************************************/
 

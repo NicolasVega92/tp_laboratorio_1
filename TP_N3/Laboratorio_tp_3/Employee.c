@@ -690,14 +690,17 @@ int emp_borrarById(LinkedList* pArrayListEmployee, int length, int id)
 {
 	int retorno = -1;
 	int indiceBorrar;
+	Employee* pEmployee;
 	if(pArrayListEmployee != NULL && length > 0 && id > 0)
 	{
 		indiceBorrar = emp_buscarId(pArrayListEmployee, length, id);
 		if(indiceBorrar > -1)
 		{
+			pEmployee = ll_get(pArrayListEmployee, indiceBorrar);
 			if(ll_remove(pArrayListEmployee, indiceBorrar)==0)
 			{
 				retorno = 0;
+				employee_delete(pEmployee);
 			}
 		}
 		else if(indiceBorrar == -1)
@@ -838,8 +841,84 @@ int employee_compararNombre(void* thisA, void* thisB)
 	}
 	return retorno;
 }
-
-
+int employee_compararSueldo(void* thisA, void* thisB)
+{
+	int retorno = 0;
+	Employee* pEmployeeA = (Employee*)thisA;
+	Employee* pEmployeeB = (Employee*)thisB;
+	char bufferSueldoA[LONG_NAME];
+	char bufferSueldoB[LONG_NAME];
+	if(thisA != NULL && thisB != NULL)
+	{
+		employee_getSueldoTxt(pEmployeeA, bufferSueldoA);
+		employee_getSueldoTxt(pEmployeeB, bufferSueldoB);
+		if(atof(bufferSueldoA) > atof(bufferSueldoB))
+		{
+			retorno = 1;
+		}
+		else if(atof(bufferSueldoA) < atof(bufferSueldoB))
+		{
+			retorno = -1;
+		}
+		else
+		{
+			retorno = 0;
+		}
+	}
+	return retorno;
+}
+int employee_compararId(void* thisA, void* thisB)
+{
+	int retorno = 0;
+	Employee* pEmployeeA = (Employee*)thisA;
+	Employee* pEmployeeB = (Employee*)thisB;
+	char bufferIdA[LONG_NAME];
+	char bufferIdB[LONG_NAME];
+	if(thisA != NULL && thisB != NULL)
+	{
+		employee_getIdTxt(pEmployeeA, bufferIdA);
+		employee_getIdTxt(pEmployeeB, bufferIdB);
+		if(atoi(bufferIdA) > atoi(bufferIdB))
+		{
+			retorno = 1;
+		}
+		else if(atoi(bufferIdA) < atoi(bufferIdB))
+		{
+			retorno = -1;
+		}
+		else
+		{
+			retorno = 0;
+		}
+	}
+	return retorno;
+}
+int employee_compararHoras(void* thisA, void* thisB)
+{
+	int retorno = 0;
+	Employee* pEmployeeA = (Employee*)thisA;
+	Employee* pEmployeeB = (Employee*)thisB;
+	char bufferHorasA[LONG_NAME];
+	char bufferHorasB[LONG_NAME];
+	if(thisA != NULL && thisB != NULL)
+	{
+		employee_getHorasTrabajadasTxt(pEmployeeA, bufferHorasA);
+		employee_getHorasTrabajadasTxt(pEmployeeB, bufferHorasB);
+		if(atoi(bufferHorasA) > atoi(bufferHorasB))
+		{
+			retorno = 1;
+		}
+		else if(atoi(bufferHorasA) < atoi(bufferHorasB))
+		{
+			retorno = -1;
+		}
+		else
+		{
+			retorno = 0;
+		}
+	}
+	return retorno;
+}
 
 
 

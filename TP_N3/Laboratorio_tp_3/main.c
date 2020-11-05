@@ -43,7 +43,7 @@ int main()
         {
 			switch(option)
 			{
-            case 1://hacer logica para el MAXIMO ID CUANDO LEE
+            case 1://HACER logica para el MAXIMO ID CUANDO LEE
                 if(listaCargada == FALSE)
                 {
                 	if(controller_loadFromText("data.csv",listaEmpleados)==0)
@@ -61,7 +61,7 @@ int main()
                 	}
                 }
                 break;
-            case 2://HACER ÑPGICA PARA EL MAXIMO ID CUANDO LEE
+            case 2://HACER LOGICA PARA EL MAXIMO ID CUANDO LEE
                 if(listaCargada == FALSE)
                 {
 					if(controller_loadFromBinary("data2.csv", listaEmpleados)==0)
@@ -132,12 +132,12 @@ int main()
         			printf(ERROR_NOT_LOADED_LIST);
         		}
                 break;
-            case 7: //TARDA ALGUNOS SEGUNDOS EN HACER EL ORDENAMIENTO
+            case 7:
             	if(ll_isEmpty(listaEmpleados)==0)
             	{
             		if(controller_sortEmployee(listaEmpleados)==0)
             		{
-            			printf("OK ORDENAR\n");
+            			printf("OK PRINT\n");
             		}
         		}
         		else
