@@ -1,4 +1,4 @@
-PARA IMPORTAR EL TP 3 SIN PROBLEMAS
+#PARA IMPORTAR EL TP 3 SIN PROBLEMAS 
 
 -FILE
 -Open Proyects from File System...
@@ -8,3 +8,4 @@ PARA IMPORTAR EL TP 3 SIN PROBLEMAS
 
 Debe quedar:
 Import Source: C:/Users/.../TP_N3/Laboratorio_tp_3
+
