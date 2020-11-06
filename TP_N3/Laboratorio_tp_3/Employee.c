@@ -9,9 +9,11 @@
 #include <string.h>
 #include "Employee.h"
 #include "utn.h"
-#include "Validaciones.h"
 #include "LinkedList.h"
 #include "Controller.h"
+static int isAValidName(char array[], int limite);
+static int isLettersSpaceGuion(char array[]);
+static int isNumber(char array[]);
 /*
  * \brief 	Crea una direccion de memoria con el tamaño indicado en malloc
  * \return	Una direccion de memoria con el tamaño de Employee
@@ -19,31 +21,6 @@
 Employee* employee_new(void)
 {
 	return (Employee*) malloc(sizeof(Employee));
-}
-/*
- * \brief	Agrega los valores pasados como parametros a la direccion de memoria creada por new
- * \param	char* nombre
- * \pram 	char* apellido
- * \param	float altura
- * \param	int id
- * \return	auxPuntero pudiendo ser = NULL o = la direccion creada por new con los valores agregados
- */
-Employee* emp_newParametros(char* nombre, int horasTrabajadas, float sueldo, int id)
-{
-	Employee* this;
-	this = employee_new();
-	if(this != NULL && nombre != NULL && horasTrabajadas > 0 && sueldo > 0L && id > 0)
-	{
-		if(	employee_setNombre(this, nombre)==-1					||
-			employee_setHorasTrabajadas(this, horasTrabajadas)==-1	||
-			employee_setId(this, id)==-1							||
-			employee_setSueldo(this, sueldo)==-1					)
-		{
-			employee_delete(this);
-			this = NULL;
-		}
-	}
-	return this;
 }
 /*
  * \brief	Agrega los valores pasados como parametros a la direccion de memoria creada por new
@@ -71,7 +48,7 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 	return this;
 }
 /*
- *
+ * \brief 	Libera la direccion de memoria del elemento pasado como parametro
  */
 void employee_delete(Employee* this)
 {
@@ -81,7 +58,11 @@ void employee_delete(Employee* this)
 	}
 }
 /*
- *
+ * \brief 	Setea el valor de nombre para el elemento pasado como parametro (this)
+ * \param 	Employee* this
+ * \param	char* nombre
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_setNombre(Employee* this, char* nombre)
 {
@@ -97,7 +78,11 @@ int employee_setNombre(Employee* this, char* nombre)
 	return retorno;
 }
 /*
- *
+ * \brief 	Obtiene el valor de nombre del elemento pasado como parametro (this)
+ * \param 	Employee* this
+ * \param	char* nombre
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_getNombre(Employee* this, char* nombre)
 {
@@ -110,7 +95,12 @@ int employee_getNombre(Employee* this, char* nombre)
 	return retorno;
 }
 /*
- *
+ * \brief 	Setea el valor de ID como INT en el elemento pasado como parametro (this)
+ * 			El id se pasa como char* en el parametro de la función
+ * \param 	Employee* this
+ * \param	char* id
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_setIdTxt(Employee* this, char* id)
 {
@@ -126,7 +116,7 @@ int employee_setIdTxt(Employee* this, char* id)
 	return retorno;
 }
 /*
- *
+ * A REHACER ....
  */
 int employee_setIdTxtStaticValue(Employee* this, char* id)
 {
@@ -152,7 +142,12 @@ int employee_setIdTxtStaticValue(Employee* this, char* id)
 	return retorno;
 }
 /*
- *
+ * \brief 	Setea el valor de ID como INT en el elemento pasado como parametro (this)
+ * 			El id se pasa como int en el parametro de la función
+ * \param 	Employee* this
+ * \param	int id
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_setId(Employee* this, int id)
 {
@@ -165,7 +160,11 @@ int employee_setId(Employee* this, int id)
 	return retorno;
 }
 /*
- *
+ * \brief 	Obtiene el valor de ID como CHAR del elemento pasado como parametro (this)
+ * \param 	Employee* this
+ * \param	char* id
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_getIdTxt(Employee* this, char* id)
 {
@@ -178,7 +177,11 @@ int employee_getIdTxt(Employee* this, char* id)
 	return retorno;
 }
 /*
- *
+ * \brief 	Obtiene el valor de ID como INT del elemento pasado como parametro (this)
+ * \param 	Employee* this
+ * \param	int* id
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_getId(Employee* this, int* id)
 {
@@ -191,7 +194,12 @@ int employee_getId(Employee* this, int* id)
 	return retorno;
 }
 /*
- *
+ * \brief 	Setea el valor de HORASTRABAJADAS como INT en el elemento pasado como parametro (this)
+ * 			HORASTRABAJADAS se pasa como char* en el parametro de la función
+ * \param 	Employee* this
+ * \param	char* horasTrabajadas
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_setHorasTrabajadasTxt(Employee* this, char* horasTrabajadas)
 {
@@ -207,7 +215,12 @@ int employee_setHorasTrabajadasTxt(Employee* this, char* horasTrabajadas)
 	return retorno;
 }
 /*
- *
+ * \brief 	Setea el valor de HORASTRABAJADAS como INT en el elemento pasado como parametro (this)
+ * 			HORASTRABAJADAS se pasa como int en el parametro de la función
+ * \param 	Employee* this
+ * \param	int horasTrabajadas
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_setHorasTrabajadas(Employee* this, int horasTrabajadas)
 {
@@ -220,7 +233,11 @@ int employee_setHorasTrabajadas(Employee* this, int horasTrabajadas)
 	return retorno;
 }
 /*
- *
+ * \brief 	Obtiene el valor de HORASTRABAJADAS como CHAR del elemento pasado como parametro (this)
+ * \param 	Employee* this
+ * \param	char* horasTrabajadas
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_getHorasTrabajadasTxt(Employee* this, char* horasTrabajadas)
 {
@@ -233,7 +250,11 @@ int employee_getHorasTrabajadasTxt(Employee* this, char* horasTrabajadas)
 	return retorno;
 }
 /*
- *
+ * \brief 	Obtiene el valor de HORASTRABAJADAS como INT del elemento pasado como parametro (this)
+ * \param 	Employee* this
+ * \param	int* horasTrabajadas
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_getHorasTrabajadas(Employee* this, int* horasTrabajadas)
 {
@@ -246,7 +267,12 @@ int employee_getHorasTrabajadas(Employee* this, int* horasTrabajadas)
 	return retorno;
 }
 /*
- *
+ * \brief 	Setea el valor de SUELDO como INT en el elemento pasado como parametro (this)
+ * 			SUELDO se pasa como char* en el parametro de la función
+ * \param 	Employee* this
+ * \param	char* sueldo
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_setSueldoTxt(Employee* this, char* sueldo)
 {
@@ -254,9 +280,9 @@ int employee_setSueldoTxt(Employee* this, char* sueldo)
 	float auxSueldo;
 	if(this != NULL && sueldo != NULL)
 	{
-		if(isNumberFloat(sueldo))
+		if(isNumber(sueldo))
 		{
-			auxSueldo = atof(sueldo);
+			auxSueldo = atoi(sueldo);
 			if(auxSueldo >= 0)
 			{
 				this->sueldo = auxSueldo;
@@ -267,9 +293,14 @@ int employee_setSueldoTxt(Employee* this, char* sueldo)
 	return retorno;
 }
 /*
- *
+ * \brief 	Setea el valor de SUELDO como INT en el elemento pasado como parametro (this)
+ * 			SUELDO se pasa como int en el parametro de la función
+ * \param 	Employee* this
+ * \param	int sueldo
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
-int employee_setSueldo(Employee* this, float sueldo)
+int employee_setSueldo(Employee* this, int sueldo)
 {
 	int retorno = -1;
 	if(this != NULL && sueldo > 0)
@@ -280,22 +311,30 @@ int employee_setSueldo(Employee* this, float sueldo)
 	return retorno;
 }
 /*
- *
+ * \brief 	Obtiene el valor de SUELDO como CHAR del elemento pasado como parametro (this)
+ * \param 	Employee* this
+ * \param	char* sueldo
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
 int employee_getSueldoTxt(Employee* this, char* sueldo)
 {
 	int retorno = -1;
 	if(this != NULL && sueldo != NULL)
 	{
-		sprintf(sueldo, "%.2f", this->sueldo);
+		sprintf(sueldo, "%d", this->sueldo);
 		retorno = 0;
 	}
 	return retorno;
 }
 /*
- *
+ * \brief 	Obtiene el valor de SUELDO como INT del elemento pasado como parametro (this)
+ * \param 	Employee* this
+ * \param	int sueldo
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
  */
-int employee_getSueldo(Employee* this, float* sueldo)
+int employee_getSueldo(Employee* this, int* sueldo)
 {
 	int retorno=-1;
 	if(this != NULL && sueldo != NULL)
@@ -305,294 +344,17 @@ int employee_getSueldo(Employee* this, float* sueldo)
 	}
 	return retorno;
 }
-/*
- *
- */
-int emp_guardarArrayEnArchivo(Employee* arrayPunteros[], int length, char* pathArchivo)
-{
-	int retorno = -1;
-	int i;
-	FILE* fpArchivo;
-	char auxNombre[LONG_NAME];
-	char auxHoras[LONG_NAME];
-	char auxSueldo[LONG_NAME];
-	char auxId[LONG_NAME];
-	if(arrayPunteros != NULL && pathArchivo != NULL && length > 0)
-	{
-		fpArchivo = fopen(pathArchivo, "w");
-		if(fpArchivo != NULL)
-		{
-			retorno = 0;
-			for(i=0; i < length; i++)
-			{
-				if(arrayPunteros[i] != NULL)
-				{
-					if(	employee_getIdTxt(arrayPunteros[i], auxId) == 0)
-					{
-						if(employee_getNombre(arrayPunteros[i], auxNombre) == 0)
-						{
-							if(employee_getHorasTrabajadasTxt(arrayPunteros[i], auxHoras)==0)
-							{
-								if(employee_getSueldoTxt(arrayPunteros[i], auxSueldo) == 0)
-								{
-									fprintf(fpArchivo, "%s,%s,%s,%s\n",auxId, auxNombre, auxHoras, auxSueldo );
-									//printf("%s,%s,%s,%s\n",auxId, auxNombre, auxApellido, auxSueldo );
-								}
-								else
-								{
-									printf("NO SUELDO\n");
-								}
-							}
-							else
-							{
-								printf("NO HORAS\n");
-							}
-						}
-						else
-						{
-							printf("NO NOMBRE\n");
-						}
-					}
-					else
-					{
-						printf("NO ID\n");
-					}
-				}
-			}
-			fclose(fpArchivo);
-		}
-		else
-		{
-			printf("No se pudo crear el archivo\n\n");
-		}
-	}
-
-	return retorno;
-}
-/*
- *
- */
-int emp_leerArchivoParaVolcarloAlArray(Employee* arrayPunteros[], int length, char* pathArchivo, int* proximoId)
-{
-	int retorno = -1;
-	int retornoFscanf;
-	char auxNombre[LONG_NAME];
-	char auxHoras[LONG_NAME];
-	char auxSueldo[LONG_NAME];
-	char auxId[LONG_NAME];
-	FILE* fpArchivo;
-	if(arrayPunteros != NULL && pathArchivo != NULL && length > 0)
-	{
-		fpArchivo = fopen(pathArchivo, "r");
-		if(fpArchivo != NULL)
-		{
-			retorno = 0;
-			do
-			{
-				retornoFscanf = fscanf(fpArchivo, "%[^,],%[^,],%[^,],%[^\n]\n", auxId, auxNombre, auxHoras, auxSueldo);
-				if(retornoFscanf == 4)
-				{
-					//printf("\n%s-%s-%s-%s\n", auxId, auxNombre, auxApellido, auxAltura);
-					if(emp_agregarArrayPunterosTxt(arrayPunteros, length, auxId, auxNombre, auxHoras, auxSueldo) != -1)
-					{
-						//printf("ALTA OK\n");
-
-						if(atoi(auxId) > *proximoId)
-						{
-							*proximoId = atoi(auxId) + 1;
-						}
-					}
-				}
-			}while(!feof(fpArchivo));
-			fclose(fpArchivo);
-		}
-		else
-		{
-			printf("No se pudo leer el archivo\n\n");
-		}
-	}
-	return retorno;
-}
-/*
- *
- */
-int emp_guardarArrayEnArchivoBinario(Employee* arrayPunteros[], int length, char* pathArchivo)
-{
-	int retorno = -1;
-	int i;
-	FILE* fpArchivoBinario;
-	if(arrayPunteros != NULL && pathArchivo != NULL && length > 0)
-	{
-		fpArchivoBinario = fopen(pathArchivo, "wb");
-		if(fpArchivoBinario != NULL)
-		{
-			retorno = 0;
-			for(i = 0; i < length;i++)
-			{
-				fwrite(arrayPunteros[i], sizeof(Employee), 1, fpArchivoBinario);
-			}
-			fclose(fpArchivoBinario);
-		}
-		else
-		{
-			printf("No se pudo crear el archivo\n\n");
-		}
-	}
-
-	return retorno;
-}
-/*
- *
- */
-int emp_leerArchivoParaVolcarloAlArrayBinario(Employee* arrayPunteros[], int length, char* pathArchivo, int* proximoId)
-{
-	int retorno = -1;
-	int i=0;
-	int fin = 1;
-	int auxId;
-	//char auxNombre[LONG_NAME];
-	//char auxApellido[LONG_NAME];
-	//float auxAltura;
-	FILE* fpArchivoBinario;
-	Employee auxEmployee;
-	//pasar el parser bynaria
-	if(arrayPunteros != NULL && length > 0 && pathArchivo != NULL)
-	{
-		fpArchivoBinario = fopen(pathArchivo, "rb");
-		if(fpArchivoBinario != NULL)
-		{
-			retorno = 0;
-			do
-			{
-				fin = fread(&auxEmployee, sizeof(Employee), 1, fpArchivoBinario);
-				if(fin == 1)
-				{
-					//printf("%s-%s-%.2f.%d\n",auxEmployee.name, auxEmployee.lastName, auxEmployee.altura, auxEmployee.id);
-					if(emp_agregarArrayPunteros(arrayPunteros, length, auxEmployee.nombre, auxEmployee.horasTrabajadas, auxEmployee.sueldo, auxEmployee.id) != -1)
-					{
-						printf("Entro\n");
-						i++;
-						auxId = auxEmployee.id;
-						if(auxId > *proximoId)
-						{
-							*proximoId = auxId + 1;
-						}
-					}
-					else
-					{
-						printf("NO AGREGO AL ARRAY LO QUE LEYO\n");
-					}
-				}
-			}while(!feof(fpArchivoBinario));
-			fclose(fpArchivoBinario);
-		}
-		else
-		{
-			printf("No se pudo leer el archivo\n\n");
-		}
-	}
-	return retorno;
-}
-
 /**********************************************************************************************************/
-
-
 /*
- * \brief	Recorre el array de punteros poniendo sus posiciones en NULL
- * \param	Employee* arrayPunteros
- * \param	int length
- * \return	-1 ERROR / 0 OK
- *
- */
-int emp_initArrayPunteros(Employee* arrayPunteros[], int length)
-{
-	int retorno = -1;
-	int i;
-	if(arrayPunteros != NULL && length > 0)
-	{
-		for(i = 0; i < length; i++)
-		{
-			arrayPunteros[i] = NULL;
-		}
-		retorno = 0;
-	}
-	return retorno;
-}
-/*
- * \brief	Recorre el array de punteros buscando un indice con NULL
- * \param	Employee* arrayPunteros
- * \param	int length
- * \return	-1 ERROR en validacion / -2 no encontro posición libre / i OK, posición con NULL cargado en el array
- *
- */
-int emp_buscarLibreArrayPunteros(Employee* arrayPunteros[], int length)
-{
-	int retorno = -1;
-	int i;
-	if(arrayPunteros != NULL && length > 0)
-	{
-		retorno = -2;
-		for(i = 0; i < length; i++)
-		{
-			if(arrayPunteros[i] == NULL)
-			{
-				retorno = i;
-				break;
-			}
-		}
-	}
-	return retorno;
-}
-/*
- * \brief	Recorre el array de punteros imprimiendo los indices con != NULL
- * \param	Employee* arrayPunteros
- * \param	int length
- * \return	-1 ERROR / 0 OK
- *
- */
-int emp_imprimirArrayPunteros(Employee* arrayPunteros[], int length)
-{
-	int retorno = -1;
-	int i;
-	if(arrayPunteros != NULL && length > 0)
-	{
-		printf("\n-----------LISTA EMPLEADOS--------------\n");
-		for(i = 0; i < length; i++)
-		{
-			if(arrayPunteros[i] != NULL)
-			{
-				printf("ID: %d - Nombre: %s - Horas trabajadas: %d - Sueldo: %.2f\n\n", arrayPunteros[i]->id, arrayPunteros[i]->nombre, arrayPunteros[i]->horasTrabajadas, arrayPunteros[i]->sueldo);
-			}
-		}
-		retorno = 0;
-	}
-	return retorno;
-}
-/*
- * \brief	Libera la posicion en el arrayPunteros del indice pasado y luego coloca un NULL en esa posicion
- * \param	Employee* arrayPunteros
- * \param	int indice
- * \return	-1 ERROR / 0 OK
- *
- */
-int emp_deleteByIndiceArrayPunteros(Employee* arrayPunteros[], int length ,int indice)
-{
-	int retorno = -1;
-	if(arrayPunteros != NULL && indice < length && indice > -1 && arrayPunteros[indice] != NULL)
-	{
-		employee_delete(arrayPunteros[indice]);
-		arrayPunteros[indice] = NULL;
-		retorno = 0;
-	}
-	return retorno;
-}
-/*
- * \brief	Recorre el array de punteros buscando un indice !=NULL y con el mismo valor en el campo Id que el pasado como parametro
- * \param	Employee* arrayPunteros
+ * \brief	Recorre la lista pasada como parametro y verifica en cada elemento el campo ID
+ * 			y lo compara con el id pasado como parametro.
+ * 			Hasta encontrar una coincidencia o llegar al final y no encontrarla.
+ * \param	Employee* pArrayListEmployee
  * \param	int length
  * \param	int id
- * \return	-1 ERROR en validacion / -2 no encontro posición libre / i OK, posición con NULL cargado en el array
- *
+ * \return	int -1 ERROR pArrayListEmployee == NULL || length <= 0 || id <= 0 /
+ * 			int -2 ERROR No encontro ID /
+ * 			int i OK indice del elemento cargado en la lista con el mismo valor del ID pasado como parametro
  */
 int emp_buscarId(LinkedList* pArrayListEmployee, int length, int id)
 {
@@ -617,86 +379,34 @@ int emp_buscarId(LinkedList* pArrayListEmployee, int length, int id)
 	return retorno;
 }
 /*
- * \brief	agrega los valores pasados como parametros al array de punteros mediante la utilizacion de la funcion
- * 			buscarLibre y luego newParametros
- * \param	Employee* arrayPunteros
- * \param	int length
- * \param	char* nombre
- * \param	float altura
- * \param	int id
- * \return	-1 ERROR en validacion / OK retorno el valor del indice donde se agrego el Employee
- *
- */
-int emp_agregarArrayPunteros(Employee* arrayPunteros[], int length, char* nombre, int horasTrabajadas, float sueldo, int id)
-{
-	int retorno = -1;
-	int indiceLibre;
-	Employee* punteroAuxEmployee;
-	if(arrayPunteros != NULL && length > 0 && nombre != NULL && horasTrabajadas >= 0 && id > 0 && sueldo > 0)
-	{
-		indiceLibre = emp_buscarLibreArrayPunteros(arrayPunteros, length);
-		if(indiceLibre > -1)
-		{
-			punteroAuxEmployee = emp_newParametros(nombre, horasTrabajadas, sueldo, id);
-			if(punteroAuxEmployee != NULL)
-			{
-				arrayPunteros[indiceLibre] = punteroAuxEmployee;
-				retorno = indiceLibre;
-			}
-		}
-	}
-	return retorno;
-}
-/*
- * \brief	agrega los valores pasados como parametros al array de punteros mediante la utilizacion de la funcion
- * 			buscarLibre y luego newParametros
- * \param	Employee* arrayPunteros
- * \param	int length
- * \param   char* id
- * \param	char* nombre
- * \param	char* apellido
- * \param	char* altura
- * \return	-1 ERROR en validacion / OK retorno el valor del indice donde se agrego el Employee
- *
- */
-int emp_agregarArrayPunterosTxt(Employee* arrayPunteros[], int length, char* id, char* nombre, char* horasTrabajadas, char* sueldo)
-{
-	int retorno = -1;
-	int indiceLibre;
-	Employee* punteroAuxEmployee;
-	if(arrayPunteros != NULL && length > 0 && nombre != NULL && horasTrabajadas != NULL && id != NULL && sueldo != NULL)
-	{
-		indiceLibre = emp_buscarLibreArrayPunteros(arrayPunteros, length);
-		if(indiceLibre > -1)
-		{
-			punteroAuxEmployee = employee_newParametros(nombre, horasTrabajadas, sueldo, id);
-			if(punteroAuxEmployee != NULL)
-			{
-				arrayPunteros[indiceLibre] = punteroAuxEmployee;
-				retorno = indiceLibre;
-			}
-		}
-	}
-	return retorno;
-}
-/*
- * \brief	Recorre el array de punteros buscando un indice !=NULL y con el mismo valor en el campo Id que el pasado como parametro
- * \param	Employee* arrayPunteros
+ * \brief	Elimina de la lista un elemento con el id pasado como parametro.
+ * 			Mediante la funcion emp_buscarId() obtiene el indice y luego lo elimina.
+ * \param	Employee* pArrayListEmployee
  * \param	int length
  * \param	int id
- * \return	-1 ERROR en validacion / -2 no encontro posición libre / i OK, posición con NULL cargado en el array
+ * \return	int -1 ERROR pArrayListEmployee == NULL || length <= 0 || id <= 0 /
+ * 			int -1 indiceBorrar <= -1 /
+ * 			int i OK indice del elemento cargado en la lista con el mismo valor del ID pasado como parametro
  */
 int emp_borrarById(LinkedList* pArrayListEmployee, int length, int id)
 {
 	int retorno = -1;
 	int indiceBorrar;
 	Employee* pEmployee;
+	char auxNombre[LONG_NAME];
+	char auxSueldo[LONG_NUMBER_VALUE];
+	char auxHoras[LONG_NUMBER_VALUE];
 	if(pArrayListEmployee != NULL && length > 0 && id > 0)
 	{
 		indiceBorrar = emp_buscarId(pArrayListEmployee, length, id);
 		if(indiceBorrar > -1)
 		{
 			pEmployee = ll_get(pArrayListEmployee, indiceBorrar);
+			employee_getNombre(pEmployee, auxNombre);
+			employee_getSueldoTxt(pEmployee, auxSueldo);
+			employee_getHorasTrabajadasTxt(pEmployee, auxHoras);
+			printf("\nAcaba de eliminar de la lista el id: %d\n", id);
+			printf("Nombre: %s - Horas Trabajadas: %s - Sueldo: %s\n",auxNombre,auxHoras,auxSueldo);
 			if(ll_remove(pArrayListEmployee, indiceBorrar)==0)
 			{
 				retorno = 0;
@@ -715,107 +425,17 @@ int emp_borrarById(LinkedList* pArrayListEmployee, int length, int id)
 	return retorno;
 }
 /*
- *
- */
-int emp_ordenarArrayPunteros(Employee* arrayPunteros[], int length)
-{
-	int retorno = -1;
-	int i;
-	int flagSwap;
-	Employee* bufferPuntero;
-	int nuevoLimite = length - 1;
-	if(arrayPunteros!= NULL && length > 0)
-	{
-		retorno=0;
-		do
-		{
-			flagSwap=0;
-			for(i=0; i < nuevoLimite;i++)
-			{
-				if(	arrayPunteros[i] != NULL && arrayPunteros[i+1] != NULL &&
-					strncmp(arrayPunteros[i]->nombre, arrayPunteros[i+1]->nombre, LONG_NAME) > 1)
-				{
-					bufferPuntero = arrayPunteros[i];
-					arrayPunteros[i] = arrayPunteros[i+1];
-					arrayPunteros[i+1] = bufferPuntero;
-					flagSwap = 1;
-				}
-			}
-			nuevoLimite--;
-		}while(flagSwap);
-	}
-	return retorno;
-}
-/*
- *
- */
-int emp_promediarSueldo(Employee* arrayPunteros[], int length, float* promedio)
-{
-	int retorno = -1;
-	int i;
-	int cantidadEmployee = 0;
-	float acumulador = 0;
-	if(arrayPunteros != NULL && length > 0 && promedio != NULL)
-	{
-		for(i=0; i < length;i++)
-		{
-			if(arrayPunteros[i] != NULL)
-			{
-				acumulador = arrayPunteros[i]->sueldo + acumulador;
-				cantidadEmployee++;
-			}
-		}
-		*promedio = acumulador / cantidadEmployee;
-		retorno = 0;
-	}
-
-	return retorno;
-}
-/*
- *
- */
-int emp_calcularSueldoMax(Employee* arrayPunteros[], int length, int* indice)
-{
-	int retorno = -1;
-	int i;
-	float maxSueldo;
-	int indiceMaxSueldo;
-	int flag = 0;
-	if(arrayPunteros != NULL && length > 0 && indice != NULL)
-	{
-		for(i=0; i < length;i++)
-		{
-			if(arrayPunteros[i] != NULL)
-			{
-				if(flag == 0)
-				{
-					indiceMaxSueldo = i;
-					maxSueldo = arrayPunteros[i]->sueldo;
-					flag = 1;
-				}
-				else
-				{
-					if(arrayPunteros[i]->sueldo > maxSueldo)
-					{
-						indiceMaxSueldo = i;
-						maxSueldo = arrayPunteros[i]->sueldo;
-					}
-				}
-
-			}
-		}
-		*indice = indiceMaxSueldo;
-		retorno = 0;
-	}
-	return retorno;
-}
-
-/*
- *
+ * \brief	Compara dos elementos pasados como parametros
+ * \param	void* thisA
+ * \param	void* thisB
+ * \return	int 1 el elementoA es mayor que el elementoB
+ * 			int -1 el elementoB es mayor que el elementoA
+ * 			int 0 iguales
+ * 			int -2 ERROR thisA == NULL || thisB == NULL
  */
 int employee_compararNombre(void* thisA, void* thisB)
 {
-	int retorno = 0;
+	int retorno = -2;
 	Employee* pEmployeeA = (Employee*)thisA;
 	Employee* pEmployeeB = (Employee*)thisB;
 	int respuestaStrncmp;
@@ -841,22 +461,31 @@ int employee_compararNombre(void* thisA, void* thisB)
 	}
 	return retorno;
 }
+/*
+ * \brief	Compara dos elementos pasados como parametros
+ * \param	void* thisA
+ * \param	void* thisB
+ * \return	int 1 el elementoA es mayor que el elementoB
+ * 			int -1 el elementoB es mayor que el elementoA
+ * 			int 0 iguales
+ * 			int -2 ERROR thisA == NULL || thisB == NULL
+ */
 int employee_compararSueldo(void* thisA, void* thisB)
 {
-	int retorno = 0;
+	int retorno = -2;
 	Employee* pEmployeeA = (Employee*)thisA;
 	Employee* pEmployeeB = (Employee*)thisB;
-	char bufferSueldoA[LONG_NAME];
-	char bufferSueldoB[LONG_NAME];
+	char bufferSueldoA[LONG_NUMBER_VALUE];
+	char bufferSueldoB[LONG_NUMBER_VALUE];
 	if(thisA != NULL && thisB != NULL)
 	{
 		employee_getSueldoTxt(pEmployeeA, bufferSueldoA);
 		employee_getSueldoTxt(pEmployeeB, bufferSueldoB);
-		if(atof(bufferSueldoA) > atof(bufferSueldoB))
+		if(atoi(bufferSueldoA) > atoi(bufferSueldoB))
 		{
 			retorno = 1;
 		}
-		else if(atof(bufferSueldoA) < atof(bufferSueldoB))
+		else if(atoi(bufferSueldoA) < atoi(bufferSueldoB))
 		{
 			retorno = -1;
 		}
@@ -867,13 +496,22 @@ int employee_compararSueldo(void* thisA, void* thisB)
 	}
 	return retorno;
 }
+/*
+ * \brief	Compara dos elementos pasados como parametros
+ * \param	void* thisA
+ * \param	void* thisB
+ * \return	int 1 el elementoA es mayor que el elementoB
+ * 			int -1 el elementoB es mayor que el elementoA
+ * 			int 0 iguales
+ * 			int -2 ERROR thisA == NULL || thisB == NULL
+ */
 int employee_compararId(void* thisA, void* thisB)
 {
-	int retorno = 0;
+	int retorno = -2;
 	Employee* pEmployeeA = (Employee*)thisA;
 	Employee* pEmployeeB = (Employee*)thisB;
-	char bufferIdA[LONG_NAME];
-	char bufferIdB[LONG_NAME];
+	char bufferIdA[LONG_NUMBER_VALUE];
+	char bufferIdB[LONG_NUMBER_VALUE];
 	if(thisA != NULL && thisB != NULL)
 	{
 		employee_getIdTxt(pEmployeeA, bufferIdA);
@@ -893,13 +531,22 @@ int employee_compararId(void* thisA, void* thisB)
 	}
 	return retorno;
 }
+/*
+ * \brief	Compara dos elementos pasados como parametros
+ * \param	void* thisA
+ * \param	void* thisB
+ * \return	int 1 el elementoA es mayor que el elementoB
+ * 			int -1 el elementoB es mayor que el elementoA
+ * 			int 0 iguales
+ * 			int -2 ERROR thisA == NULL || thisB == NULL
+ */
 int employee_compararHoras(void* thisA, void* thisB)
 {
-	int retorno = 0;
+	int retorno = -2;
 	Employee* pEmployeeA = (Employee*)thisA;
 	Employee* pEmployeeB = (Employee*)thisB;
-	char bufferHorasA[LONG_NAME];
-	char bufferHorasB[LONG_NAME];
+	char bufferHorasA[LONG_NUMBER_VALUE];
+	char bufferHorasB[LONG_NUMBER_VALUE];
 	if(thisA != NULL && thisB != NULL)
 	{
 		employee_getHorasTrabajadasTxt(pEmployeeA, bufferHorasA);
@@ -915,6 +562,101 @@ int employee_compararHoras(void* thisA, void* thisB)
 		else
 		{
 			retorno = 0;
+		}
+	}
+	return retorno;
+}
+/*
+* \brief 	Verifica una cadena como parametro para determinar si es nombre valido
+* \param 	char array[], array a analizar
+* \param 	int limite indica la cantidad maxima del nombre
+ * return 	(1) Es válido / (0) No es un nombre valido
+ */
+static int isAValidName(char array[], int limite)
+{
+	int retorno = 1; //TODO OK
+	int i=0;
+	if(array[i]=='\0')
+	{
+		retorno = 0;
+	}
+	else
+	{
+		for(i = 0; i <= limite && array[i] != '\0'; i++)
+		{
+			if(isLettersSpaceGuion(array) == 0)
+			{
+				retorno = 0;
+				break;
+			}
+		}
+	}
+	return retorno;
+}
+/**
+ * \brief 	Verifica si la cadena ingresada son letras
+ * \param 	char array de caracteres a ser analizada
+ * \return 	1 EXITO / (0) ERROR
+ */
+static int isLettersSpaceGuion(char array[])
+{
+	int retorno = 1;
+	int i=0;
+	int flagSpace = FALSE;
+	if(array[i]==' ')
+	{
+		retorno = 0;
+	}
+	else
+	{
+		for( ; array[i] != '\0'; i++)
+		{
+			if(flagSpace == TRUE)
+			{
+				if(array[i] == ' ')
+				{
+					retorno = 0;
+					break;
+				}
+				else
+				{
+					flagSpace = FALSE;
+				}
+			}
+			if((array[i] < 'A' || array[i] > 'Z') &&
+				(array[i] < 'a' || array[i] > 'z') &&
+				(array[i] != ' ') &&
+				(array[i] != '-') &&
+				(array[i] < 'á' || array[i] > 'ú') &&
+				(array[i] != 'é'))
+			{
+				retorno = 0;
+				break;
+			}
+			if(array[i] == ' ')
+			{
+				flagSpace = TRUE;
+			}
+
+		}
+	}
+	return retorno;
+}
+/**
+ * \brief 	Verifica si la cadena ingresada es numerica
+ * \param 	char array de caracteres a ser analizada
+ * \return 	1 EXITO / (0) ERROR
+ */
+static int isNumber(char array[])
+{
+	int retorno = 1;
+	int i = 0;
+	for( i=0; array[i] != '\0'; i++)
+	{
+		if(array[i] < '0' || array[i] > '9')
+		{
+			retorno = 0;
+			break;
 		}
 	}
 	return retorno;

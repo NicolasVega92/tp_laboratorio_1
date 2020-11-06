@@ -5,6 +5,7 @@
 #ifndef UTN_H_
 #define UTN_H_
 	#define LONG_NAME 100
+	#define LONG_NUMBER_VALUE 8
 	#define MAX_SALARY 1000000
 	#define MIN_SALARY 0.01
 	#define MAX_SECTOR 10

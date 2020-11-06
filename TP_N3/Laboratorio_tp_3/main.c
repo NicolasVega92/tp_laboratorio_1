@@ -5,20 +5,6 @@
 #include "Employee.h"
 #include "utn.h"
 
-/****************************************************
-    Menu:
-     1. Cargar los datos de los empleados desde el archivo data.csv (modo texto).
-     2. Cargar los datos de los empleados desde el archivo data.csv (modo binario).
-     3. Alta de empleado
-     4. Modificar datos de empleado
-     5. Baja de empleado
-     6. Listar empleados
-     7. Ordenar empleados
-     8. Guardar los datos de los empleados en el archivo data.csv (modo texto).
-     9. Guardar los datos de los empleados en el archivo data.csv (modo binario).
-    10. Salir
-*****************************************************/
-
 int main()
 {
 	setbuf(stdout,NULL);
@@ -28,28 +14,28 @@ int main()
     LinkedList* listaEmpleados = ll_newLinkedList();
 
     do{
-		if(utn_getNumberInt("******************************************************************************\n"
+		if(utn_getNumberInt("\n******************************************************************************\n"
 							"Ingrese opcion:\n"
 							"1-Cargar los datos de los empleados desde el archivo data.csv (modo texto).\n"
-							"2-Cargar los datos de los empleados desde el archivo data.csv (modo binario).\n"
+							"2-Cargar los datos de los empleados desde el archivo data-bin.csv (modo binario).\n"
 							"3-Alta de empleado\n"
 							"4-Modificar datos de empleado\n"
 							"5-Baja de empleado\n"
 							"6-Listar empleados\n"
 							"7-Ordenar empleados\n"
 							"8-Guardar los datos de los empleados en el archivo data.csv (modo texto).\n"
-							"9-Guardar los datos de los empleados en el archivo data.csv (modo binario).\n"
+							"9-Guardar los datos de los empleados en el archivo data-bin.csv (modo binario).\n"
 							"10-Salir\n", "Error en la opcion ingresada\n", &option, 3, 1, 12)==0)
         {
 			switch(option)
 			{
-            case 1://HACER logica para el MAXIMO ID CUANDO LEE
+            case 1:
                 if(listaCargada == FALSE)
                 {
                 	if(controller_loadFromText("data.csv",listaEmpleados)==0)
                     {
                     	listaCargada = TRUE;
-                    	printf("OK CARGA TEXTO\n");
+                    	printf("\nOK CARGA TEXTO\n");
                     }
                 }
                 else
@@ -61,13 +47,13 @@ int main()
                 	}
                 }
                 break;
-            case 2://HACER LOGICA PARA EL MAXIMO ID CUANDO LEE
+            case 2:
                 if(listaCargada == FALSE)
                 {
-					if(controller_loadFromBinary("data2.csv", listaEmpleados)==0)
+					if(controller_loadFromBinary("data-bin.csv", listaEmpleados)==0)
 					{
 						listaCargada = TRUE;
-						printf("OK CARGA BINARIA\n");
+						printf("\nOK CARGA BINARIA\n");
 					}
                 }
                 else
@@ -84,21 +70,20 @@ int main()
             	{
     				if(controller_addEmployee(listaEmpleados)==0)
     				{
-    					printf("OK ALTA\n");
+    					printf("\nOK ALTA\n");
     				}
             	}
             	else
             	{
             		printf(ERROR_NOT_LOADED_LIST);
             	}
-
             	break;
             case 4:
             	if(ll_isEmpty(listaEmpleados)==0)
             	{
             		if(controller_editEmployee(listaEmpleados)==0)
             		{
-            			printf("OK MODIFICACION\n");
+            			printf("\nOK MODIFICACION\n");
             		}
             	}
             	else
@@ -111,7 +96,7 @@ int main()
             	{
             		if(controller_removeEmployee(listaEmpleados)==0)
             		{
-            			printf("OK REMOVIDO\n");
+            			printf("\nOK REMOVIDO\n");
             		}
         		}
         		else
@@ -124,7 +109,7 @@ int main()
             	{
 					if(controller_ListEmployee(listaEmpleados)==0)
 					{
-						printf("OK PRINT\n");
+						printf("\nOK PRINT\n");
 					}
         		}
         		else
@@ -137,7 +122,7 @@ int main()
             	{
             		if(controller_sortEmployee(listaEmpleados)==0)
             		{
-            			printf("OK PRINT\n");
+            			printf("\nOK SORT\n");
             		}
         		}
         		else
@@ -150,7 +135,7 @@ int main()
             	{
 					if(controller_saveAsText("data.csv", listaEmpleados)==0)
 					{
-						printf("OK GUARDADO TEXTO\n");
+						printf("\nOK GUARDADO TEXTO\n");
 					}
         		}
         		else
@@ -161,9 +146,9 @@ int main()
             case 9:
             	if(ll_isEmpty(listaEmpleados)==0)
             	{
-					if(controller_saveAsBinary("data2.csv", listaEmpleados)==0)
+					if(controller_saveAsBinary("data-bin.csv", listaEmpleados)==0)
 					{
-						printf("OK SAVE BINARY\n");
+						printf("\nOK SAVE BINARY\n");
 					}
         		}
         		else
