@@ -6,7 +6,7 @@ id,cantidadAfiches,nombre,zona,estado,idCliente
 5,866,Pirelli,2,0,1
 6,853,Toyota,0,0,1
 7,387,Renault,1,0,1
-8,218,Chocolinas,0,0,1
+8,218,Chocolina,0,0,1
 9,2830,Bagley,0,0,1
 10,2830,Lg,0,0,5
 11,1000,Nescafe,2,0,5
@@ -19,3 +19,5 @@ id,cantidadAfiches,nombre,zona,estado,idCliente
 18,270,Jax,0,0,14
 19,270,Losgalles,2,0,6
 20,200,Nokia,2,0,5
+21,333,Oreo,0,0,17
+22,200,Pancho,0,1,5

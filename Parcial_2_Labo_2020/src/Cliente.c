@@ -305,14 +305,11 @@ int cliente_imprimirClientePorIdClienteVentas(void* this, void* elemento)
 	char auxCuit[LONG_NAME];
 	if(thisA != NULL)
 	{
-		printf("ENTRO?\n");
 		retorno = -1;
 		if(	cliente_getIdTxt(thisA, auxId) == 0)
 		{
-			printf("ENTRO?\n");
 			if(atoi(auxId) ==  *idClienteParametro)
 			{
-				printf("ENTRO?\n");
 				if(	cliente_getNombre(thisA, auxNombre) == 0 &&
 					cliente_getApellido(thisA, auxApellido) == 0 &&
 					cliente_getCuit(thisA, auxCuit)==0)

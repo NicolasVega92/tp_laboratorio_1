@@ -29,4 +29,8 @@
 	int findACobrar(void* pElemento, void* id);
 	int controller_clienteMaxMinAfiches(LinkedList* thisA, LinkedList* thisB, int filtro );
 	int controller_ventaMaxCantidadAfiches(LinkedList* thisA, LinkedList* thisB);
+
+
+
+	int soloSinCobrar(void* pElemento);
 #endif /* CONTROLLER_H_ */

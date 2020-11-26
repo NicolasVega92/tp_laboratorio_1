@@ -263,54 +263,92 @@ int controller_editVentasEstado(LinkedList* thisA, LinkedList* thisB )
 	int idVentaPedido;
 	int opcion;
 	int auxEstadoInt;
+	LinkedList* listaSinCobrar = NULL;
 	/************/
 	//char nombreGet[LONG_NAME];
 	//int cantGet;
 	//int estadoGet;
+	int lengthSinCobrar;
 	/**/
 	if(thisA != NULL && thisB != NULL)
 	{
-		printf(" ID|         NOMBRE| IDCLIENTE|CANT AFICHES|        ZONA|    ESTADO\n");
-    	if(ll_map(thisA, ventas_imprimirListaACobrar)==0)
-    	{
-    		printf("\nOK PRINT\n");
-    		if(utn_getNumberInt("Ingrese el Id de la venta que desea modificar:\n", "Error, ingrese un valor numérico\n", &idVentaPedido, 3, 1, 100)==0)
-    		{
-    			idClienteAImprimir = ll_mapComparar(thisA, ventas_obtenerIdCliente, &idVentaPedido);
-    			if(idClienteAImprimir > -1)
+		listaSinCobrar = ll_clone(thisA);
+		if(ll_filter(listaSinCobrar, soloSinCobrar) == 0)
+		{
+			//printf("OK FILTER\n");
+			lengthSinCobrar = ll_len(listaSinCobrar);
+			//printf(" sin cobrar len %d\n", lengthSinCobrar);
+			if( lengthSinCobrar > 0)
+			{
+				printf(" ID|         NOMBRE| IDCLIENTE|CANT AFICHES|        ZONA|    ESTADO\n");
+				if(ll_map(thisA, ventas_imprimirListaACobrar)==0)
 				{
-    				printf("\nOK MAP COMPARAR\n");
-    				if(ll_mapComparar(thisB, cliente_imprimirClientePorIdClienteVentas, &idClienteAImprimir) > -1)
-    				{
-    					pVentas = (Ventas*)ll_get(thisA, (idVentaPedido)-1);
-    					printf("\nOK MAP COMPARAR CLIENTE\n");
-    					if(utn_getNumberInt("¿Desea confirmar el cambio de estado a \"Cobrada\"?\n"
-    										"1- Si\n"
-    										"2- NO\n", "Error, Ingrese una opción válida (1 - 2)\n", &opcion, 3, 1, 2) == 0)
-    					{
-    						if(pVentas != NULL && opcion == 1)
-    						{
-    							auxEstadoInt = 0;
-    							//sprintf(auxEstado, "%d", 0);
-    							//ventas_getACobrarTxt(pVentas, estadoACAMBIAR);
-    							//printf("ESTADO A CAMBIAR   %s --- Y EL ANTEIROR %s \n\n", auxEstado, estadoACAMBIAR);
-    							//ventas_getNombre(pVentas, nombreGet);
-    							//ventas_getCantidadAfiches(pVentas, &cantGet);
-    							//ventas_getACobrar(pVentas, &estadoGet);
-    							//printf("-----------%s %d ---- %d ", nombreGet, cantGet, estadoGet);
-    							if(ventas_setACobrar(pVentas, &auxEstadoInt) == 0)
-    							{
-    								//ventas_getACobrarTxt(pVentas, estadoDespues);
-    								//printf("aaaaaaaaaaaa %s aaaaa \n", estadoDespues);
-    								printf("OK CAMBIO DE ESTADO COBRADA\n");
-    								retorno = 0;
-    							}
-    						}
-    					}
-    				}
+					printf("\nOK PRINT\n");
+					if(utn_getNumberInt("Ingrese el Id de la venta que desea modificar:\n", "Error, ingrese un valor numérico\n", &idVentaPedido, 3, 1, 100)==0)
+					{
+						idClienteAImprimir = ll_mapComparar(thisA, ventas_obtenerIdCliente, &idVentaPedido);
+						if(idClienteAImprimir > -1)
+						{
+							printf("\nOK MAP COMPARAR\n");
+							if(ll_mapComparar(thisB, cliente_imprimirClientePorIdClienteVentas, &idClienteAImprimir) > -1)
+							{
+								pVentas = (Ventas*)ll_get(thisA, (idVentaPedido)-1);
+								printf("\nOK MAP COMPARAR CLIENTE\n");
+								if(utn_getNumberInt("¿Desea confirmar el cambio de estado a \"Cobrada\"?\n"
+													"1- Si\n"
+													"2- NO\n", "Error, Ingrese una opción válida (1 - 2)\n", &opcion, 3, 1, 2) == 0)
+								{
+									if(pVentas != NULL && opcion == 1)
+									{
+										auxEstadoInt = 0;
+										//sprintf(auxEstado, "%d", 0);
+										//ventas_getACobrarTxt(pVentas, estadoACAMBIAR);
+										//printf("ESTADO A CAMBIAR   %s --- Y EL ANTEIROR %s \n\n", auxEstado, estadoACAMBIAR);
+										//ventas_getNombre(pVentas, nombreGet);
+										//ventas_getCantidadAfiches(pVentas, &cantGet);
+										//ventas_getACobrar(pVentas, &estadoGet);
+										//printf("-----------%s %d ---- %d ", nombreGet, cantGet, estadoGet);
+										if(ventas_setACobrar(pVentas, &auxEstadoInt) == 0)
+										{
+											//ventas_getACobrarTxt(pVentas, estadoDespues);
+											//printf("aaaaaaaaaaaa %s aaaaa \n", estadoDespues);
+											printf("OK CAMBIO DE ESTADO COBRADA\n");
+											retorno = 0;
+										}
+									}
+								}
+							}
+						}
+					}
 				}
-    		}
-    	}
+			}
+			else
+			{
+				printf(	"No hay ninguna venta sin cobrar\n"
+						"Ingrese a la opción 2 para crear una nueva Venta\n\n");
+			}
+
+		}
+
+
+	}
+	return retorno;
+}
+int soloSinCobrar(void* pElemento)
+{
+	int retorno = -2;
+	Ventas* thisA = (Ventas*)pElemento;
+	int auxEstado;
+	if(thisA != NULL)
+	{
+		retorno = 0;
+		if(	ventas_getACobrar(thisA, &auxEstado) == 0	)
+		{
+			if(auxEstado == 0)
+			{
+				retorno = 1;
+			}
+		}
 	}
 	return retorno;
 }
@@ -326,80 +364,97 @@ int controller_editVentas(LinkedList* thisA, LinkedList* thisB )
 	int aModificar;
 	int auxCantInt;
 	//int parametro = 1;
+	LinkedList* listaSinCobrar = NULL;
+	int lengthSinCobrar;
 	/************/
 	if(thisA != NULL && thisB != NULL)
 	{
-
-    	if(ll_map(thisA, ventas_imprimirListaACobrar)==0)
-    	//if(ll_mapComparar(thisA, ventas_imprimirListaACobrarParametro, &parametro) == 0)
-    	{
-    		printf("\nOK PRINT\n");
-    		if(utn_getNumberInt("Ingrese el Id de la venta que desea modificar:\n", "Error, ingrese un valor numérico\n", &idVentaPedido, 3, 1, 100)==0)
-    		{
-    			idClienteAImprimir = ll_mapComparar(thisA, ventas_obtenerIdCliente, &idVentaPedido);
-    			if(idClienteAImprimir > -1)
+		listaSinCobrar = ll_clone(thisA);
+		if(ll_filter(listaSinCobrar, soloSinCobrar) == 0)
+		{
+			//printf("OK FILTER\n");
+			lengthSinCobrar = ll_len(listaSinCobrar);
+			//printf(" sin cobrar len %d\n", lengthSinCobrar);
+			if( lengthSinCobrar > 0)
+			{
+				printf(" ID|         NOMBRE| IDCLIENTE|CANT AFICHES|        ZONA|    ESTADO\n");
+				if(ll_map(thisA, ventas_imprimirListaACobrar)==0)
+				//if(ll_mapComparar(thisA, ventas_imprimirListaACobrarParametro, &parametro) == 0)
 				{
-    				printf("\nOK MAP COMPARAR\n");
-    				if(ll_mapComparar(thisB, cliente_imprimirClientePorIdClienteVentas, &idClienteAImprimir) > -1)
-    				{
-    					pVentas = (Ventas*)ll_get(thisA, (idVentaPedido - 1));
-    					printf("\nOK MAP COMPARAR CLIENTE\n");
-    					if(utn_getNumberInt("Que desea modificar de la venta:\n"
-    										"1- Nombre del archivo\n"
-    										"2- Cantidad de afiches\n"
-    										"3- Zona donde se pegarán\n", "Error, Ingrese una opción válida (1 - 3)\n", &aModificar, 3, 1, 3) == 0)
-    					{
-    						if(pVentas != NULL && aModificar > 0 && aModificar < 4)
-    						{
-    							printf("\n\nventa: %s - cant %d - %s\n\n", pVentas->nombre, pVentas->cantidadAfiches, ZONA[atoi(pVentas->zona)]);
-        						switch(aModificar)
-        						{
-    								case 1:
-    									if(utn_getName("Ingresa el Nombre del archivo:\n", "Error, por favor reintentelo con un nombre válido\n", auxNombre , 3, LONG_NAME)==0)
-    									{
-    										if(ventas_setNombre(pVentas, auxNombre) == 0)
-    										{
-    											//ll_set(thisA, idVentaPedido, pVentas);
-    											printf("Ok EDIT NOMBRE VENTA\n");
-    											printf("\n\nventa: %s - cant %d - %s\n\n", pVentas->nombre, pVentas->cantidadAfiches, pVentas->zona);
-    											retorno = 0;
-    										}
-    									}
-    									break;
-    								case 2:
-    									if(utn_getNumberInt("Ingrese la cantidad de afiches que desea: \n", "Error, solo Números (1 - 1000)\n", &auxCantInt, 3, 1, 1000)== 0)
-    									{
-    										if(ventas_setCantidadAfiches(pVentas, &auxCantInt) == 0)
-    										{
-    											//ll_set(thisA, idVentaPedido, pVentas);
-    											printf("Ok EDIT CANT AFICHES VENTA\n");
-    											printf("\n\nventa: %s - cant %d - %s\n\n", pVentas->nombre, pVentas->cantidadAfiches, pVentas->zona);
-    											retorno = 0;
-    										}
-    									}
-    									break;
-    								case 3:
-    									if(utn_getNumberTxt("Ingrese el número correspondiente de la zona donde desea colocar los afiches:\n"
-    														"0- CABA\n"
-    														"1-ZONA SUR\n"
-    														"2-Zona OESTE\n", "Error, ingrese una opción válida\n", auxZona, 2, LONG_NAME)==0)
-    									{
-    										if(ventas_setZona(pVentas, auxZona)==0)
-    										{
-    											//ll_set(thisA, idVentaPedido, pVentas);
-    											printf("Ok EDIT ZONA VENTA\n");
-    											printf("\n\nventa: %s - cant %d - %s\n\n", pVentas->nombre, pVentas->cantidadAfiches, pVentas->zona);
-    											retorno = 0;
-    										}
-    									}
-    									break;
-        						}
-    						}
-    					}
-    				}
+					printf("\nOK PRINT\n");
+					if(utn_getNumberInt("Ingrese el Id de la venta que desea modificar:\n", "Error, ingrese un valor numérico\n", &idVentaPedido, 3, 1, 100)==0)
+					{
+						idClienteAImprimir = ll_mapComparar(thisA, ventas_obtenerIdCliente, &idVentaPedido);
+						if(idClienteAImprimir > -1)
+						{
+							printf("\nOK MAP COMPARAR\n");
+							if(ll_mapComparar(thisB, cliente_imprimirClientePorIdClienteVentas, &idClienteAImprimir) > -1)
+							{
+								pVentas = (Ventas*)ll_get(thisA, (idVentaPedido - 1));
+								printf("\nOK MAP COMPARAR CLIENTE\n");
+								if(utn_getNumberInt("Que desea modificar de la venta:\n"
+													"1- Nombre del archivo\n"
+													"2- Cantidad de afiches\n"
+													"3- Zona donde se pegarán\n", "Error, Ingrese una opción válida (1 - 3)\n", &aModificar, 3, 1, 3) == 0)
+								{
+									if(pVentas != NULL && aModificar > 0 && aModificar < 4)
+									{
+										printf("\nNombre Archivo: %s - Cantidad: %d - Zona: %s\n", pVentas->nombre, pVentas->cantidadAfiches, ZONA[atoi(pVentas->zona)]);
+										switch(aModificar)
+										{
+											case 1:
+												if(utn_getName("Ingresa el Nombre del archivo:\n", "Error, por favor reintentelo con un nombre válido\n", auxNombre , 3, LONG_NAME)==0)
+												{
+													if(ventas_setNombre(pVentas, auxNombre) == 0)
+													{
+														//ll_set(thisA, idVentaPedido, pVentas);
+														printf("Ok EDIT NOMBRE VENTA\n");
+														printf("\nNombre Archivo: %s - Cantidad: %d - Zona: %s\n", pVentas->nombre, pVentas->cantidadAfiches, ZONA[atoi(pVentas->zona)]);
+														retorno = 0;
+													}
+												}
+												break;
+											case 2:
+												if(utn_getNumberInt("Ingrese la cantidad de afiches que desea: \n", "Error, solo Números (1 - 1000)\n", &auxCantInt, 3, 1, 1000)== 0)
+												{
+													if(ventas_setCantidadAfiches(pVentas, &auxCantInt) == 0)
+													{
+														//ll_set(thisA, idVentaPedido, pVentas);
+														printf("Ok EDIT CANT AFICHES VENTA\n");
+														printf("\nNombre Archivo: %s - Cantidad: %d - Zona: %s\n", pVentas->nombre, pVentas->cantidadAfiches, ZONA[atoi(pVentas->zona)]);
+														retorno = 0;
+													}
+												}
+												break;
+											case 3:
+												if(utn_getNumberTxt("Ingrese el número correspondiente de la zona donde desea colocar los afiches:\n"
+																	"0- CABA\n"
+																	"1-ZONA SUR\n"
+																	"2-Zona OESTE\n", "Error, ingrese una opción válida\n", auxZona, 2, LONG_NAME)==0)
+												{
+													if(ventas_setZona(pVentas, auxZona)==0)
+													{
+														//ll_set(thisA, idVentaPedido, pVentas);
+														printf("Ok EDIT ZONA VENTA\n");
+														printf("\nNombre Archivo: %s - Cantidad: %d - Zona: %s\n", pVentas->nombre, pVentas->cantidadAfiches, ZONA[atoi(pVentas->zona)]);
+														retorno = 0;
+													}
+												}
+												break;
+										}
+									}
+								}
+							}
+						}
+					}
 				}
-    		}
-    	}
+			}
+			else
+			{
+				printf(	"No hay ninguna venta sin cobrar\n"
+						"Ingrese a la opción 2 para crear una nueva Venta\n\n");
+			}
+		}
 	}
 	return retorno;
 }

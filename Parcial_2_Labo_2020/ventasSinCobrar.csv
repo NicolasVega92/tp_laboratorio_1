@@ -3,7 +3,7 @@ id_cliente,Nombre,Apellido,Cuit,cantidad_de_ventas
 2,Clementius,Thoresby,20268103116,0
 3,Drusie,Lamport,20248697533,0
 4,Mia,Bowstead,20979456214,0
-5,Bria,Cobbald,20294155227,0
+5,Bria,Cobbald,20294155227,1
 6,Maud,Ship,20782510534,0
 7,Rennie,Hebble,20470500740,0
 8,Haslett,Baton,20299029896,0
@@ -15,3 +15,4 @@ id_cliente,Nombre,Apellido,Cuit,cantidad_de_ventas
 14,Lucas,Prox,12343211231,0
 15,Luciana,Delorean,22222222222,0
 16,Juana,Skyler,33333333333,0
+17,Pedro,Gangemi,12345678121,0
