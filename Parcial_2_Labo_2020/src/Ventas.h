@@ -50,4 +50,9 @@ static const char ZONA[3][LONG_NAME] = {"CABA", "ZONA SUR", "ZONA OESTE"};
 	int ventas_imprimirListaACobrar(void* this);
 	int ventas_obtenerIdCliente(void* this, void* elemento);
 	int ventas_imprimirListaACobrarParametro(void* this, void* pArgumento);
+	int findCobradas(void* pElemento, void* id);
+	int findACobrar(void* pElemento, void* id);
+	int soloSinCobrar(void* pElemento);
+	int ventas_cobradas(void* pElemento);
+	//int contadorCantidadAfichesPorVenta(void* this);
 #endif /* VENTAS_H_ */

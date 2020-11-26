@@ -10,11 +10,22 @@
 #include "LinkedList.h"
 #include "utn.h"
 #include "Cliente.h"
+/*
+ * \brief 	Crea una direccion de memoria con el tamaño indicado en malloc
+ * \return	Una direccion de memoria con el tamaño de CLIENTE
+ */
 Cliente* cliente_new(void)
 {
 	return (Cliente*)malloc(sizeof(Cliente));
 }
-
+/*
+ * \brief	Agrega los valores pasados como parametros a la direccion de memoria creada por new
+ * \param	char* nombre
+ * \param 	char* apellido
+ * \param	char* cuit
+ * \param	char* id
+ * \return	auxPuntero pudiendo ser = NULL o = la direccion creada por new con los valores agregados
+ */
 Cliente* cliente_newParametrosTxt(char* nombre, char* apellido, char* cuit, char* id)
 {
 	Cliente* this = cliente_new();
@@ -33,6 +44,14 @@ Cliente* cliente_newParametrosTxt(char* nombre, char* apellido, char* cuit, char
 	//printf("%s - %s - %s - %d", this->nombre, this->apellido, this->cuit, this->id);
 	return this;
 }
+/*
+ * \brief	Agrega los valores pasados como parametros a la direccion de memoria creada por new
+ * \param	char* nombre
+ * \param 	char* apellido
+ * \param	char* cuit
+ * \param	int* id
+ * \return	auxPuntero pudiendo ser = NULL o = la direccion creada por new con los valores agregados
+ */
 Cliente* cliente_newParametros(char* nombre, char* apellido, char* cuit, int* id )
 {
 	Cliente* this = cliente_new();
@@ -49,6 +68,9 @@ Cliente* cliente_newParametros(char* nombre, char* apellido, char* cuit, int* id
 	}
 	return NULL;
 }
+/*
+ * \brief 	Libera la direccion de memoria del elemento pasado como parametro
+ */
 void cliente_delete(Cliente* this)
 {
 	if(this != NULL)
@@ -56,7 +78,13 @@ void cliente_delete(Cliente* this)
 		free(this);
 	}
 }
-
+/*
+ * \brief 	Obtiene el valor de nombre del elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	char* nombre
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_getNombre(Cliente* this, char* nombre)
 {
 	int retorno = -1;
@@ -67,7 +95,13 @@ int cliente_getNombre(Cliente* this, char* nombre)
 	}
 	return retorno;
 }
-
+/*
+ * \brief 	Setea el valor de nombre para el elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	char* nombre
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_setNombre(Cliente* this, char* nombre)
 {
 	int retorno = -1;
@@ -83,7 +117,13 @@ int isValidNombre(char* nombre)
 {
 	return 1;
 }
-
+/*
+ * \brief 	Obtiene el valor de apellido del elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	char* apellido
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_getApellido(Cliente* this, char* apellido)
 {
 	int retorno = -1;
@@ -94,7 +134,13 @@ int cliente_getApellido(Cliente* this, char* apellido)
 	}
 	return retorno;
 }
-
+/*
+ * \brief 	Setea el valor de apellido para el elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	char* apellido
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_setApellido(Cliente* this, char* apellido)
 {
 	int retorno = -1;
@@ -110,7 +156,13 @@ int isValidApellido(char* apellido)
 {
 	return 1;
 }
-
+/*
+ * \brief 	Obtiene el valor de cuit del elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	char* cuit
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_getCuit(Cliente* this, char* cuit)
 {
 	int retorno = -1;
@@ -121,7 +173,13 @@ int cliente_getCuit(Cliente* this, char* cuit)
 	}
 	return retorno;
 }
-
+/*
+ * \brief 	Setea el valor de cuit para el elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	char* cuit
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_setCuit(Cliente* this, char* cuit)
 {
 	int retorno = -1;
@@ -137,7 +195,13 @@ int isValidCuit(char* cuit)
 {
 	return 1;
 }
-
+/*
+ * \brief 	Obtiene el valor de id del elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	int* id
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_getId(Cliente* this, int* id)
 {
 	int retorno = -1;
@@ -148,7 +212,13 @@ int cliente_getId(Cliente* this, int* id)
 	}
 	return retorno;
 }
-
+/*
+ * \brief 	Setea el valor de id para el elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	int* id
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_setId(Cliente* this, int* id)
 {
 	int retorno = -1;
@@ -166,7 +236,13 @@ int isValidId(int* id)
 	return retorno;
 }
 
-
+/*
+ * \brief 	Obtiene el valor de id del elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	char* id
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_getIdTxt(Cliente* this, char* id)
 {
 	int retorno = -1;
@@ -177,7 +253,13 @@ int cliente_getIdTxt(Cliente* this, char* id)
 	}
 	return retorno;
 }
-
+/*
+ * \brief 	Setea el valor de id para el elemento pasado como parametro (this)
+ * \param 	Cliente* this
+ * \param	char* id
+ * \return	int -1 ERROR this == NULL || parametro == NULL
+ * 			int 0 OK
+ */
 int cliente_setIdTxt(Cliente* this, char* id)
 {
 	int retorno = -1;
@@ -221,15 +303,23 @@ int cliente_buscarId(LinkedList* this, int length, int id)
 	}
 	return retorno;
 }
+/*
+ * \brief	Recorre y busca el CUIT pasado como parametro
+ * \param	Cliente* this
+ * \param	int length
+ * \param	char* cuit
+ * \return	int -2 ERROR en validaciones
+ * \return  int -1 Si encontro el CUIT (ya existe)
+ * \return  int  0 NO ENCONTRO COINCIDENCIA
+ */
 int cliente_buscarCuit(LinkedList* this, int length, char* cuit)
 {
-	int retorno = -1;
+	int retorno = -2;
 	int i;
 	char auxCuitBuscado[LONG_NAME];
 	Cliente* pCliente;
 	if(this != NULL && length > 0 && cuit != NULL)
 	{
-		retorno = -2;
 		for(i = 0; i < length; i++)
 		{
 			retorno = 0;
@@ -291,14 +381,19 @@ int cliente_borrarById(LinkedList* this, int length, int id)
 	return retorno;
 }
 /*
- *
+ * \brief	Imprime el cliente obtenido del this pasado como parametro
+ * 			Comparandolo con el elemento del parametro
+ * \param	void* this
+ * \param 	void* elemento
+ * \return	int -2 ERROR en validaciones
+ * 			int -1 No encuentra
+ * 			int id cliente OK
  */
 int cliente_imprimirClientePorIdClienteVentas(void* this, void* elemento)
 {
 	int retorno = -2;
 	Cliente* thisA = (Cliente*)this;
 	int* idClienteParametro = (int*)elemento;
-	//char auxIdCliente[LONG_NAME];
 	char auxId[LONG_NAME];
 	char auxNombre[LONG_NAME];
 	char auxApellido[LONG_NAME];
@@ -323,7 +418,11 @@ int cliente_imprimirClientePorIdClienteVentas(void* this, void* elemento)
 	return retorno;
 }
 /*
- *
+ * \brief	Imprime el cliente obtenido del this pasado como parametro
+ * \param	void* this
+ * \return	int -2 ERROR en validaciones
+ * 			int -1 No encuentra
+ * 			int 0 OK
  */
 int cliente_imprimir(void* this)
 {
@@ -347,26 +446,27 @@ int cliente_imprimir(void* this)
 	}
 	return retorno;
 }
+/*
+ * \brief	Compara el elemento parametro con el id del cliente
+ * \param	void* this
+ * \param	void* elemento
+ * \return	int -2 ERROR en validaciones
+ * 			int -1 No encuentra
+ * 			int id del cliente OK
+ */
 int cliente_buscarIdPorParametro(void* this, void* elemento)
 {
 	int retorno = -2;
 	Cliente* thisA = (Cliente*)this;
-	//int* idClienteParametro = (int*)elemento;
 	char* idClienteParametro = (char*)elemento;
 	int auxIdClienteInt;
-	//char auxId[LONG_NAME];
-	if(thisA != NULL)
+	if(thisA != NULL && idClienteParametro != NULL)
 	{
 		retorno = -1;
-		//if(	cliente_getIdTxt(thisA, auxId) == 0)
 		if(cliente_getId(thisA, &auxIdClienteInt)==0)
 		{
-			//if(atoi(auxId) ==  *idClienteParametro)
-			//if(atoi(auxId) ==  atoi(idClienteParametro))
 			if(auxIdClienteInt == atoi(idClienteParametro))
 			{
-				//cliente_getId(thisA, &auxIdClienteInt);
-				//printf("id cliente - %d -  del idCliente de la VENTA - %s - \n",auxIdClienteInt, idClienteParametro);
 				retorno = auxIdClienteInt;
 			}
 		}
@@ -374,3 +474,48 @@ int cliente_buscarIdPorParametro(void* this, void* elemento)
 	}
 	return retorno;
 }
+/*
+ * \brief	Imprime el cliente obtenido del this pasado como parametro
+ * 			Comparandolo con el elemento pasado
+ * \param	void* this
+ * \return	int -2 ERROR en validaciones
+ * 			int -1 No encuentra
+ * 			int 0 OK
+ */
+int cliente_imprimirPorId(void* this, void* elemento)
+{
+	int retorno = -2;
+	Cliente* thisA = (Cliente*)this;
+	int* idClienteParametro = (int*)elemento;
+	char auxId[LONG_NAME];
+	char auxNombre[LONG_NAME];
+	char auxApellido[LONG_NAME];
+	char auxCuit[LONG_NAME];
+	if(thisA != NULL)
+	{
+		retorno = 0;
+		if(	cliente_getIdTxt(thisA, auxId) == 0)
+		{
+			if(atoi(auxId) ==  *idClienteParametro)
+			{
+				if(	cliente_getNombre(thisA, auxNombre) == 0 &&
+					cliente_getApellido(thisA, auxApellido) == 0 &&
+					cliente_getCuit(thisA, auxCuit)==0)
+				{
+					printf("Nombre: %s - Apellido: %s - CUIT: %s\n", auxNombre, auxApellido, auxCuit);
+				}
+				retorno = atoi(auxId);
+			}
+		}
+	}
+	return retorno;
+}
+
+
+
+
+
+
+
+
+

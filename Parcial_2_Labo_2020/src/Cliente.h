@@ -15,7 +15,6 @@
 		char cuit[LONG_NAME];
 		int id;
 	}Cliente;
-
 	Cliente* cliente_new(void);
 	Cliente* cliente_newParametrosTxt(char* nombre, char* apellido, char* cuit, char* id);
 	Cliente* cliente_newParametros(char* nombre, char* apellido, char* cuit, int* id );
@@ -40,4 +39,5 @@
 	int cliente_imprimirClientePorIdClienteVentas(void* this, void* elemento);
 	int cliente_imprimir(void* this);
 	int cliente_buscarIdPorParametro(void* this, void* elemento);
+	int cliente_imprimirPorId(void* this, void* elemento);
 #endif /* CLIENTE_H_ */

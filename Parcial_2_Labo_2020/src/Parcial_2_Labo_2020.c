@@ -68,7 +68,7 @@ int main(void) {
 					case 3:
 						if(ll_isEmpty(listaVentas)==0)
 						{
-							if(controller_editVentas(listaVentas, listaCliente)==0)
+							if(controller_editVentasConParametro(listaVentas, listaCliente, 0)==0)
 							{
 								printf("OK EDIT VENTAS\n");
 								if(controller_saveAsTextVentas("ventas-data.csv", listaVentas) == 0)
@@ -85,7 +85,7 @@ int main(void) {
 					case 4:
 						if(ll_isEmpty(listaVentas)==0)
 						{
-							if(controller_editVentasEstado(listaVentas, listaCliente)==0)
+							if(controller_editVentasConParametro(listaVentas, listaCliente, 1)==0)
 							{
 								printf("OK EDIT VENTAS\n");
 								if(controller_saveAsTextVentas("ventas-data.csv", listaVentas) == 0)

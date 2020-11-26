@@ -12,11 +12,24 @@
 #include "Ventas.h"
 #include "Cliente.h"
 #include "Informes.h"
+/*
+ * \brief 	Crea una direccion de memoria con el tamaño indicado en malloc
+ * \return	Una direccion de memoria con el tamaño de Ventas
+ */
 Ventas* ventas_new(void)
 {
 	return (Ventas*)malloc(sizeof(Ventas));
 }
-
+/*
+ * \brief	Agrega los valores pasados como parametros a la direccion de memoria creada por new
+ * \param	char* id
+ * \param 	char* aCobrar
+ * \param	char* idCliente
+ * \param	char* cantidadAfiches
+ * \param   char* nombre
+ * \param   char* zona
+ * \return	auxPuntero pudiendo ser = NULL o = la direccion creada por new con los valores agregados
+ */
 Ventas* ventas_newParametrosTxt(char* id, char* aCobrar, char* idCliente, char* cantidadAfiches, char* nombre, char* zona)
 {
 	Ventas* this = ventas_new();
@@ -35,6 +48,16 @@ Ventas* ventas_newParametrosTxt(char* id, char* aCobrar, char* idCliente, char* 
 	}
 	return this;
 }
+/*
+ * \brief	Agrega los valores pasados como parametros a la direccion de memoria creada por new
+ * \param	char* id
+ * \param 	char* aCobrar
+ * \param	char* idCliente
+ * \param	char* cantidadAfiches
+ * \param   char* nombre
+ * \param   char* zona
+ * \return	auxPuntero pudiendo ser = NULL o = la direccion creada por new con los valores agregados
+ */
 Ventas* ventas_newParametros(int* id, int* aCobrar, int* idCliente, int* cantidadAfiches, char* nombre, char* zona)
 {
 	Ventas* this = ventas_new();
@@ -330,7 +353,6 @@ int ventas_imprimirListaACobrar(void* this)
 	char auxId[LONG_NAME];
 	char auxZona[LONG_NAME];
 	char auxEstado[LONG_NAME];
-	//printf("entre aca antes del IF EN LA FUNCION IMPRIMIR\n");
 	if(thisA != NULL)
 	{
 		retorno = -1;
@@ -412,7 +434,7 @@ int ventas_obtenerIdCliente(void* this, void* elemento)
 						//ventas_getIdClienteTxt(thisA, auxIdCliente);
 						//printf("id cliente - %s -  del id de la venta - %s - \n",auxIdCliente, auxId);
 						ventas_getIdCliente(thisA, &auxIdClienteInt);
-						printf("id cliente - %d -  del id de la venta - %s - \n",auxIdClienteInt, auxId);
+						printf("id cliente - %d -  del id de la venta - %s \n",auxIdClienteInt, auxId);
 						retorno = auxIdClienteInt;
 					}
 				}
@@ -422,3 +444,130 @@ int ventas_obtenerIdCliente(void* this, void* elemento)
 	}
 	return retorno;
 }
+/*
+ * \brief 	Compara el id pasado como parametro con el idCliente obtenido del elemento
+ * 			Y estado en Cobrada
+ * \param 	void* pElemento
+ * \param 	void* id
+ * \return 	int -1 ERROR this == NULL || path == NULL /
+ * 			int 1  Encuentra Coincidencia
+ * 			int 0  No encuentra Coincidencia
+ */
+int findCobradas(void* pElemento, void* id)
+{
+	int retorno = -1;
+	int estadoInt;
+	int idClienteInt;
+	int* auxId = (int*)id;
+	Ventas* pVentas = (Ventas*)pElemento;
+	if(pVentas != NULL && *auxId > 0)
+	{
+		ventas_getACobrar(pVentas, &estadoInt);
+		ventas_getIdCliente(pVentas, &idClienteInt);
+		if(estadoInt == 0 && idClienteInt == *auxId )
+		{
+			retorno = 1;
+		}
+		else
+		{
+			retorno = 0;
+		}
+	}
+	return retorno;
+}
+/*
+ * \brief 	Compara el id pasado como parametro con el idCliente obtenido del elemento
+ * 			Y estado en A COBRAR
+ * \param 	void* pElemento
+ * \param 	void* id
+ * \return 	int -1 ERROR this == NULL || path == NULL /
+ * 			int 1  Encuentra Coincidencia
+ * 			int 0  No encuentra Coincidencia
+ */
+int findACobrar(void* pElemento, void* id)
+{
+	int retorno = -1;
+	int estadoInt;
+	int idClienteInt;
+	int* auxId = (int*)id;
+	Ventas* pVentas = (Ventas*)pElemento;
+	if(pVentas != NULL && *auxId > 0)
+	{
+		ventas_getACobrar(pVentas, &estadoInt);
+		ventas_getIdCliente(pVentas, &idClienteInt);
+		if(estadoInt == 1 && idClienteInt == *auxId )
+		{
+			retorno = 1;
+		}
+		else
+		{
+			retorno = 0;
+		}
+	}
+	return retorno;
+}
+/*
+ * brief	recorre la lista pasada como parametro buscanco el ACobrar == 0
+ * return 	int 0 si NO ENCONTRO COINCIDENCIA
+ * return 	int 1 ENCONTRO
+ */
+int soloSinCobrar(void* pElemento)
+{
+	int retorno = -2;
+	Ventas* thisA = (Ventas*)pElemento;
+	int auxEstado;
+	if(thisA != NULL)
+	{
+		retorno = 0;
+		if(	ventas_getACobrar(thisA, &auxEstado) == 0	)
+		{
+			if(auxEstado == 0)
+			{
+				retorno = 1;
+			}
+		}
+	}
+	return retorno;
+}
+int ventas_cobradas(void* pElemento)
+{
+	int retorno = -1;
+	Ventas* thisA = (Ventas*)pElemento;
+	int estadoACobrar;
+	if(thisA != NULL)
+	{
+		retorno = 0;
+		if(ventas_getACobrar(thisA, &estadoACobrar)==0)
+		{
+			if(estadoACobrar == 1)
+			{
+				retorno = 1;
+			}
+		}
+	}
+	return retorno;
+}
+/*
+ *
+
+int contadorCantidadAfichesPorVenta(void* this)
+{
+	int retorno= -1;
+	Ventas* pVentas = (Ventas*)this;
+	int acumulador=0;
+	int auxEstado;
+	if(pVentas != NULL)
+	{
+		retorno = 0;
+		if(ventas_getACobrar(pVentas, &auxEstado)==0)
+		{
+			if(auxEstado == 0)
+			{
+				ventas_getCantidadAfiches(pVentas, &acumulador);
+				retorno = acumulador;
+			}
+		}
+	}
+	return retorno;
+}
+*/
