@@ -429,14 +429,14 @@ int informes_CANTIDADAFICHESMAXIMOSPORVENTA(LinkedList* thisCliente, LinkedList*
 			printf("afiches MENOS vendidos\n");
 		}
 		lengthVentasMaximas = ll_len(listaVentasMaximas);
-		printf("lista %d \n", lengthVentasMaximas);
+		//printf("lista %d \n", lengthVentasMaximas);
 		for(int j = 0; j < lengthVentasMaximas;j++)
 		{
 			pVentasMaximas = ll_get(listaVentasMaximas, j);
 			if(pVentasMaximas != NULL)
 			{
 				ventas_getIdCliente(pVentasMaximas, &idAuxiliarVentasMax);
-				printf("id auxiliar %d\n", idAuxiliarVentasMax);
+				//printf("id auxiliar %d\n", idAuxiliarVentasMax);
 				ll_mapComparar(thisCliente, cliente_imprimirClientePorIdClienteVentas, &idAuxiliarVentasMax);
 			}
 		}

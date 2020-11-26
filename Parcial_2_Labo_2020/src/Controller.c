@@ -135,6 +135,7 @@ int controller_addVentas(LinkedList* this, LinkedList* thisB)
 	char auxZona[LONG_NAME];
 	char auxEstado[LONG_NAME];
 	int auxIdPorRetorno;
+	int auxZonaInt;
 	int retornoMap;
 	if(this!=NULL && thisB != NULL)
 	{
@@ -142,12 +143,13 @@ int controller_addVentas(LinkedList* this, LinkedList* thisB)
 			(utn_getNumberTxt("Ingrese el Id del Cliente\n", "Error, solo Numeros\n", auxIdCliente, 3, LONG_NAME) == 0 )							&&
 			//(utn_getNumberInt("Ingrese el Id del Cliente\n", "Error, solo Numeros\n", &auxIdClienteInt, 3, 1, 100) == 0) &&
 			(utn_getNumberTxt("Ingrese la cantidad de afiches que desea: \n", "Error, solo Números\n", auxCantAfiches, 3, LONG_NAME)==0) 			&&
-			(utn_getNumberTxt(	"Ingrese el número correspondiente de la zona donde desea colocar los afiches:\n"
+			(utn_getNumberInt(	"Ingrese el número correspondiente de la zona donde desea colocar los afiches:\n"
 								"0-CABA\n"
 								"1-ZONA SUR\n"
-								"2-ZONA OESTE\n", "Error, ingrese una opción válida\n", auxZona, 3, LONG_NAME)==0))
+								"2-ZONA OESTE\n", "Error, ingrese una opción válida\n", &auxZonaInt, 3, 0, 2)==0))
 		{
 			//retornoMap = ll_mapComparar(thisB, cliente_buscarIdPorParametro, &idClienteAux);
+			sprintf(auxZona, "%d", auxZonaInt);
 			retornoMap = ll_mapComparar(thisB, cliente_buscarIdPorParametro, auxIdCliente);
 			if(retornoMap > -1)
 			//if(ventas_buscarIdCliente(thisB, lengthCliente, auxIdCliente)==0)
@@ -159,7 +161,7 @@ int controller_addVentas(LinkedList* this, LinkedList* thisB)
 				if(pVentas != NULL)
 				{
 					ll_add(this, pVentas);
-					printf("\nLa venta realizada tiene el ID: %s - con el estado: %s -\n"
+					printf("\nLa venta realizada tiene el ID: %s - con el estado: %s \n"
 							"Id Cliente: %s - Una cantidad de afiches de: %s \n"
 							"Nombre del afiche: %s - En la zona: %s\n", auxId, ESTADO[atoi(auxEstado)], auxIdCliente, auxCantAfiches, auxNombre, ZONA[atoi(auxZona)]);
 					retorno = 0;
@@ -363,6 +365,7 @@ int controller_editVentas(LinkedList* thisA, LinkedList* thisB )
 	int idVentaPedido;
 	int aModificar;
 	int auxCantInt;
+	int auxZonaInt;
 	//int parametro = 1;
 	LinkedList* listaSinCobrar = NULL;
 	int lengthSinCobrar;
@@ -427,11 +430,12 @@ int controller_editVentas(LinkedList* thisA, LinkedList* thisB )
 												}
 												break;
 											case 3:
-												if(utn_getNumberTxt("Ingrese el número correspondiente de la zona donde desea colocar los afiches:\n"
-																	"0- CABA\n"
+												if(utn_getNumberInt("Ingrese el número correspondiente de la zona donde desea colocar los afiches:\n"
+																	"0-CABA\n"
 																	"1-ZONA SUR\n"
-																	"2-Zona OESTE\n", "Error, ingrese una opción válida\n", auxZona, 2, LONG_NAME)==0)
+																	"2-ZONA OESTE\n", "Error, ingrese una opción válida\n", &auxZonaInt, 3, 0, 2)==0)
 												{
+													sprintf(auxZona, "%d", auxZonaInt);
 													if(ventas_setZona(pVentas, auxZona)==0)
 													{
 														//ll_set(thisA, idVentaPedido, pVentas);
@@ -453,8 +457,6 @@ int controller_editVentas(LinkedList* thisA, LinkedList* thisB )
 			{
 				printf(	"No hay ninguna venta sin cobrar\n"
 						"Ingrese a la opción 2 para crear una nueva Venta\n\n");
-				printf(	"No hay ninguna venta sin cobrar\n"
-										"Ingrese a la opción 2 para crear una nueva Venta\n\n");
 			}
 		}
 	}
