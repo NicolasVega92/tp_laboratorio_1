@@ -1,0 +1,41 @@
+Una empresa de venta y colocación de afiches publicitarios en la vía pública 
+requiere un sistema para administrar la venta de afiches. El mismo deberá tener un 
+registro de clientes y de afiches vendidos y deberá ser capaz de resguardar su
+información en archivos de texto (clientes.txt y ventas.txt), por lo cual al iniciar, 
+el programa se deberá crear una lista de clientes y una de ventas, leyendo los datos de
+los archivos para luego permitir realizar tanto la administración de los clientes 
+como de las operaciones de ventas e informes. Contará con el siguiente menú:
+
+1) Agregar cliente: Se da de alta un cliente con nombre, apellido, y cuit. 
+Se generará un ID único para este cliente que se imprimirá por pantalla si 
+el alta es correcta. Se deberá dar un error si el cliente ya existe (cuit repetido)
+
+2) Vender afiches: Se pedirán los siguientes datos: ID de cliente, cantidad de afiches, 
+nombre del archivo con la imagen del afiche y la zona donde se pegarán los afiches 
+(CABA, ZONA SUR o ZONA OESTE). Se generará automáticamente un identificador numérico 
+para la venta y se imprimirá en pantalla dicho ID en el caso de que los datos ingresados 
+sean correctos. La venta quedará en un estado “a cobrar”. Mientras esté en este estado 
+podrá ser modificada.
+
+3) Modificar venta: Se listarán todas las ventas en estado “a cobrar” (que son las que se 
+pueden modificar) con todos sus campos. 
+Se pedirá el ID de la venta y se imprimirá la informacón del cliente al que 
+pertenece (nombre. Apellido y y cuit), luego se pedirá que se ingrese qué 
+campo se quiere modificar y se deberá permitir modificarlo.
+
+4) Cobrar venta: Se listarán todas las ventas en estado “a cobrar” con todos sus campos. 
+Se pedirá el ID de la venta y se imprimirá la información del cliente al que pertenece 
+(nombre. Apellido y y cuit), luego se pedirá confirmación para cambiarse de estado y se 
+cambiará al estado "Cobrada".
+
+5) Generar informe de cobros: Se generará un archivo ventas.txt con una lista de 
+clientes con todos sus datos junto con la cantidad de ventas “cobradas” que posee.
+
+6) Generar informe de deudas: Se generará un archivo a_cobrar.txt con una lista de 
+clientes con todos sus datos junto con la cantidad de ventas “a cobrar” que posee.
+
+7) Generar estadísticas: Se imprimirá por pantalla:
+Calcular estos datos solo con las ventas “cobradas”
+	- Cliente al que se le vendió mas afiches
+	- Cliente al que se le vendió menos afiches
+	- Venta con mas afiches vendidos (indicar id de venta y cuit de cliente)
