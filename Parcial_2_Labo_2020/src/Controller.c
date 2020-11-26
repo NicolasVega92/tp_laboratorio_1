@@ -453,6 +453,8 @@ int controller_editVentas(LinkedList* thisA, LinkedList* thisB )
 			{
 				printf(	"No hay ninguna venta sin cobrar\n"
 						"Ingrese a la opción 2 para crear una nueva Venta\n\n");
+				printf(	"No hay ninguna venta sin cobrar\n"
+										"Ingrese a la opción 2 para crear una nueva Venta\n\n");
 			}
 		}
 	}
